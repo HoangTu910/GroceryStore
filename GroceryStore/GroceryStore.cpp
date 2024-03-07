@@ -2,6 +2,8 @@
 
 int main() {
 	Global global;
-	global.generateLogin();
-	//global.generateMenu();
+	while (true) {
+		global.generateLogin();
+	}
+	
 }
