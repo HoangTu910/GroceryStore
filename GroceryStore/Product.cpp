@@ -1,5 +1,14 @@
 #include "Product.h"
 
+Product::Product(string productName, string category, float price, int id, int quantity)
+{
+	this->productName = productName;
+	this->category = category;
+	this->productPrice = price;
+	this->productID = id;
+	this->quantity = quantity;
+}
+
 //getter & setter
 void Product::setProductName(string name)
 {

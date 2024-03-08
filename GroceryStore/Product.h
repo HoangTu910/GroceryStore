@@ -15,7 +15,9 @@ private:
 	string category;
 	float productPrice;
 	int productID;
+	int quantity;
 public:
+	Product(string productName, string category, float price, int id, int quantity);
 	//getter & setter
 	void setProductName(string name);
 	void setCategory(string cat);

@@ -39,7 +39,7 @@ void Global::drawRectangle(int left, int top, int width, int height)
 {
 	gotoXY(left, top);
 	cout << char(201);
-	for (int i = 0; i <= width; ++i) {
+	for (int i = 0; i < width; ++i) {
 		cout << char(205);
 	}
 	cout << char(187);
@@ -50,12 +50,12 @@ void Global::drawRectangle(int left, int top, int width, int height)
 	}
 	gotoXY(left, top + height + 1);
 	cout << char(200);
-	for (int i = 0; i <= width; ++i) {
+	for (int i = 0; i < width; ++i) {
 		cout << char(205);
 	}
 	cout << char(188);
 	for (int i = 0; i <= height-1; ++i) {
-		gotoXY(left+width+2, top +i+1);
+		gotoXY(left+width+1, top +i+1);
 		cout << char(186);
 	}
 }
@@ -76,7 +76,7 @@ int Global::getTerminalHeight() {
 
 
 int Global::leftCenter(int width) {
-	int terminalWidth = getTerminalWidth() / 2;
+	int terminalWidth = (getTerminalWidth() / 2);
 	int terminalHeight = getTerminalHeight() / 2;
 	int left = terminalWidth - (width / 2);
 	return left;
@@ -84,11 +84,12 @@ int Global::leftCenter(int width) {
 
 
 int Global::leftCenterBox(int boxWidth, int width) {
-	int terminalWidth = getTerminalWidth() / 2;
+	int terminalWidth = (getTerminalWidth() / 2);
 	int left = terminalWidth - (boxWidth / 2);
-	int windowWidth = terminalWidth - width / 2;
+	int windowWidth = terminalWidth - (width / 2);
 	return windowWidth;
 }
+
 
 void Global::generateMenu()
 {
@@ -96,14 +97,14 @@ void Global::generateMenu()
 	Option option;
 	this->initMenuColor = { 7, 7, 7, 7, 7 };
 	this->counter = 3;
-	int width = 45;
+	int width = 46;
 	int height = 10;
 	int top = 7;
 	int left = leftCenter(width);
 	drawRectangle(left, top, width, height);
-	string userLabel = "1. User Account ";
+	string userLabel = "1. User Account";
 	string customerLabel = "2. Manage Customer";
-	string inventoryLabel = "3. Manage Inventory";
+	string inventoryLabel = "3. Import Products";
 	string storeLabel = "4. Store";
 	while(true) {
 		gotoXY(leftCenter(userLabel.length()), top + 3);
@@ -164,9 +165,10 @@ void Global::generateMenu()
 
 void Global::generateLogin()
 {
+	setColor(7);
 	string password;
 	string username;
-	string warnLabel = "Welcome user !";
+	string warnLabel = "Welcome user";
 	string continueNoti = "Press 'r' to continue...";
 
 	int width = 45;
@@ -178,13 +180,13 @@ void Global::generateLogin()
 		string loginLabel = "LOGIN";
 
 		system("cls");
-		gotoXY(leftCenter(warnLabel.length()), top + 9);
+		gotoXY(leftCenter(warnLabel.length() - 1), top + 9);
 		cout << warnLabel;
 		drawRectangle(left, top, width, height);
 	
-		gotoXY(leftCenter(storeLabel.length()), 3);
+		gotoXY(leftCenter(storeLabel.length() - 1), 3);
 		cout << storeLabel;
-		gotoXY(leftCenter(loginLabel.length()), 5);
+		gotoXY(leftCenter(loginLabel.length() - 1), 5);
 		cout << loginLabel;
 
 		gotoXY(left + 5, top + 3);
