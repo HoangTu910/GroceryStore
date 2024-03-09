@@ -49,3 +49,8 @@ int Product::getProductID()
 {
 	return this->productID;
 }
+
+int Product::getProductQuantity()
+{
+	return this->quantity;
+}

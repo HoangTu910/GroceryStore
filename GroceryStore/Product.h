@@ -28,5 +28,6 @@ public:
 	string getCategory();
 	float getProductPrice();
 	int getProductID();
+	int getProductQuantity();
 };
 

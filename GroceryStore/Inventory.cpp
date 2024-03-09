@@ -19,10 +19,25 @@ void Inventory::initProduct()
 	Product firstAid("First Aid", "other", 180, 9, 50);
 	Product snack("Snack", "other", 70, 10, 50);
 
-	inventory = {
+	this->inventory = {
 		apple, banana, pencil, ruler, eraser, notebook, sweeper, firstAid, snack
 	};
 
+}
+
+void Inventory::checkInventory()
+{
+
+}
+
+int Inventory::getInventoryCapacity()
+{
+	return this->inventoryCapacity;
+}
+
+vector<Product> Inventory::getInventory()
+{
+	return this->inventory;
 }
 
 

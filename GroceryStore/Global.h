@@ -4,7 +4,7 @@
 #include<windows.h>
 #include<conio.h>
 #include<vector>
-
+#include <cstdarg>
 
 using namespace std;
 
@@ -34,7 +34,7 @@ public:
 
 	//init menu
 	void generateMenu();
-
+	int drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...);
 	//init login
 	void generateLogin();
 

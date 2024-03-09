@@ -16,16 +16,20 @@ void Option::UserOption::userAccountMenu()
 	global.drawRectangle(left, top, width, height);
 	string userLabel = "1. Change Password ";
 	string customerLabel = "2. Logout";
+	string storeLabel = "USER OPTION";
 	while (!isChosen) {
-		global.gotoXY(global.leftCenter(userLabel.length()), top + 3);
+		global.setColor(7);
+		global.gotoXY(global.leftCenter(storeLabel.length() - 1), 3);
+		cout << storeLabel;
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 3);
 		global.setColor(this->initMenuColor[0]);
 		cout << userLabel;
 
-		global.gotoXY(global.leftCenter(userLabel.length()), top + 4);
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 4);
 		global.setColor(this->initMenuColor[1]);
 		cout << customerLabel;
 
-		global.gotoXY(global.leftCenter(userLabel.length()), top + 6);
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 6);
 		global.setColor(this->initMenuColor[2]);
 		cout << "Exit";
 
@@ -54,6 +58,76 @@ void Option::UserOption::userAccountMenu()
 		case 1: this->initMenuColor[0] = 3; break;
 		case 2: this->initMenuColor[1] = 3; break;
 		case 3: this->initMenuColor[2] = 3; break;
+		}
+	}
+}
+
+void Option::StoreOption::storeMenu()
+{
+	system("cls");
+	Global global;
+	LoginSystem login;
+	Store store;
+	global.setColor(7);
+	this->initMenuColor = { 7, 7, 7, 7 };
+	this->counter = 2;
+	int width = 45;
+	int height = 7;
+	int top = 7;
+	int left = global.leftCenter(width);
+	bool isChosen = false;
+	global.drawRectangle(left, top, width, height);
+	string userLabel = "1. Change Password ";
+	string storeLabel = "STORE OPTION";
+	while (!isChosen) {
+		global.setColor(7);
+		global.gotoXY(global.leftCenter(storeLabel.length() - 1), 3);
+		cout << storeLabel;
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 2);
+		global.setColor(this->initMenuColor[0]);
+		cout << "1. Simulate Shopping";
+
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 3);
+		global.setColor(this->initMenuColor[1]);
+		cout << "2. Check Inventory";
+
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 4);
+		global.setColor(this->initMenuColor[2]);
+		cout << "3. Arrange Product";
+
+		global.gotoXY(global.leftCenter(userLabel.length()-1), top + 6);
+		global.setColor(this->initMenuColor[3]);
+		cout << "Exit";
+
+		this->key = _getch();
+		if (this->key == 'w' && (this->counter >= 2 && this->counter <= 4)) {
+			this->counter--;
+		}
+
+		if (this->key == 's' && (this->counter >= 1 && this->counter <= 3)) {
+			this->counter++;
+		}
+
+		if (this->key == '\r') {
+			switch (this->counter) {
+			case 1: this->option = "shopping"; login.configLogin();  isChosen = true; break;
+			case 2: this->option = "checkinven"; store.checkInventory(); isChosen = true; break;
+			case 3: this->option = "arrange"; global.generateMenu(); isChosen = true; break;
+			case 4: this->option = "exit"; global.generateMenu(); isChosen = true; break;
+			}
+		
+		}
+
+		this->initMenuColor[0] = 7;
+		this->initMenuColor[1] = 7;
+		this->initMenuColor[2] = 7;
+		this->initMenuColor[3] = 7;
+
+		switch (this->counter) {
+		case 1: this->initMenuColor[0] = 3; break;
+		case 2: this->initMenuColor[1] = 3; break;
+		case 3: this->initMenuColor[2] = 3; break;
+		case 4: this->initMenuColor[3] = 3; break;
 		}
 	}
 }

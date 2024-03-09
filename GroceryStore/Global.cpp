@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "Employee.h"
 #include "Option.h"
+#include <cstdarg>
 
 using namespace std;
 
@@ -94,6 +95,7 @@ int Global::leftCenterBox(int boxWidth, int width) {
 void Global::generateMenu()
 {
 	system("cls");
+	setColor(7);
 	Option option;
 	this->initMenuColor = { 7, 7, 7, 7, 7 };
 	this->counter = 3;
@@ -106,24 +108,32 @@ void Global::generateMenu()
 	string customerLabel = "2. Manage Customer";
 	string inventoryLabel = "3. Import Products";
 	string storeLabel = "4. Store";
+	string storeLabels = "GROCERY STORE MANAGMENT";
+	string menuLabel = "MAIN MENU";
 	while(true) {
-		gotoXY(leftCenter(userLabel.length()), top + 3);
+		setColor(7);
+		gotoXY(leftCenter(storeLabels.length() - 1), 3);
+		cout << storeLabels;
+		gotoXY(leftCenter(menuLabel.length() - 1), 5);
+		cout << menuLabel;
+
+		gotoXY(leftCenter(userLabel.length() - 1), top + 3);
 		setColor(this->initMenuColor[0]);
 		cout << userLabel;
 
-		gotoXY(leftCenter(userLabel.length()), top + 4);
+		gotoXY(leftCenter(userLabel.length() - 1), top + 4);
 		setColor(this->initMenuColor[1]);
 		cout << customerLabel;
 
-		gotoXY(leftCenter(userLabel.length()), top + 5);
+		gotoXY(leftCenter(userLabel.length() - 1), top + 5);
 		setColor(this->initMenuColor[2]);
 		cout << inventoryLabel;
 
-		gotoXY(leftCenter(userLabel.length()), top + 6);
+		gotoXY(leftCenter(userLabel.length() - 1), top + 6);
 		setColor(this->initMenuColor[3]);
 		cout << storeLabel;
 
-		gotoXY(leftCenter(userLabel.length()), top + 8);
+		gotoXY(leftCenter(userLabel.length() - 1), top + 8);
 		setColor(this->initMenuColor[4]);
 		cout << "Exit";
 
@@ -140,8 +150,8 @@ void Global::generateMenu()
 			switch (this->counter) {
 			case 1: this->option = "user"; option.userAccountMenu(); break;
 			case 2: this->option = "customer";  cout << "customer "; break;
-			case 3: this->option = "inventory";  cout << "inventory "; break;
-			case 4: this->option = "store";  cout << "store "; break;
+			case 3: this->option = "inventory";  drawMenu(10, 2, "Inventory", "Hello", "1. Test1", "2. Test2"); break;
+			case 4: this->option = "store";  option.storeMenu(); break;
 			case 5: cout << "Exit "; generateLogin(); break;
 			}
 		}
@@ -160,6 +170,83 @@ void Global::generateMenu()
 		case 5: this->initMenuColor[4] = 3; break;
 		}
 	}
+}
+
+int Global::drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...)
+{
+	system("cls");
+	vector<int> initMenuColor;
+	string userLabel = "1. User Account";
+	vector<string> menuList;
+	va_list args;
+	int counter = 1;	
+	char key;
+	va_start(args, numberMenu);
+
+	for (int i = 0; i < numberMenu; i++) {
+		char* str = va_arg(args, char*);
+		string menuItem(str);
+		menuList.push_back(menuItem);
+	}
+
+	va_end(args);
+	/*initMenuColor.resize(menuList.size());*/
+
+	for (int i = 0; i < numberMenu + 1; i++) {
+		initMenuColor.push_back(7);
+	}
+
+	int width = 46;
+	int top = 7;
+	int left = leftCenter(width);
+	drawRectangle(left, top, width, height);
+
+	while (true) {
+		int geti = 0;
+		setColor(7);
+		gotoXY(leftCenter(storeLabels.length() - 1), 3);
+		cout << storeLabels;
+		gotoXY(leftCenter(menuLabel.length() - 1), 5);
+		cout << menuLabel;
+
+		for (int i = 0; i < menuList.size(); i++) {
+			gotoXY(leftCenter(userLabel.length() - 1), top + 3 + i);
+			setColor(initMenuColor[i]);
+			cout << menuList[i];
+			geti = i;
+		}
+		
+		gotoXY(leftCenter(userLabel.length() - 1), top + 3 + geti + 2);
+		setColor(initMenuColor[numberMenu]);
+		cout << "Exit";
+
+		key = _getch();
+
+		if (key == 'w' && (counter >= 2 && counter <= numberMenu + 1)) {
+			counter--;
+		}
+
+		if (key == 's' && (counter >= 1 && counter <= numberMenu)) {
+			counter++;
+		}
+
+		if (key == '\r') {
+			return counter;
+			break;
+		}
+
+		for (int i = 0; i < initMenuColor.size(); i++) {
+			initMenuColor[i] = 7;
+		}
+		
+		for (int i = 0; i < initMenuColor.size(); i++) {
+			if (counter == i + 1) {
+				initMenuColor[i] = 3;
+				break;
+			}
+		}
+	}
+
 }
 
 
@@ -207,9 +294,9 @@ void Global::generateLogin()
 			hideCursor(true);
 			char keyPressed;
 			drawRectangle(left, top, 45, 10);
-			gotoXY(leftCenter(continueNoti.length()), top + 3);
+			gotoXY(leftCenter(continueNoti.length() - 1), top + 3);
 			cout << "Login successful ! " << endl;
-			gotoXY(leftCenter(continueNoti.length()), top + 5);
+			gotoXY(leftCenter(continueNoti.length() - 1), top + 5);
 			cout << continueNoti;
 			do {
 				if (_kbhit()) {
