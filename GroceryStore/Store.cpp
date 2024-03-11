@@ -33,6 +33,7 @@ void Store::checkInventory()
             cout << storeLabels;
             global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
             cout << menuLabel;
+
             global.drawRectangle(lefts, top, width, height);
             global.gotoXY(leftBox, top + 3);
             cout << setw(16) << left << "  ID Product";

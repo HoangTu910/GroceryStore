@@ -1,5 +1,6 @@
 #include "LoginSystem.h"
 
+
 void LoginSystem::configLogin()
 {
 	system("cls");
@@ -63,4 +64,56 @@ void LoginSystem::configLogin()
 		}
 	} while (true);
 	global.generateLogin();
+}
+
+void LoginSystem::showUserInfo()
+{
+	system("cls");
+	Global global;
+	LoginSystem login;
+	Employee employee;
+	Option option;
+	vector<int> initMenuColor = { 3 };
+	int counter = 1;
+	int width = 45;
+	int height = 10;
+	int top = 7;
+	int lefts = global.leftCenter(width);
+	int leftBox = global.leftCenterBox(width, 20);
+	bool exit = false;
+	char key;
+	string storeLabels = "USER";
+	string menuLabel = "USER PROFILE";
+	
+	while (!exit) {
+		global.setColor(7);
+		global.gotoXY(global.leftCenter(storeLabels.length() - 1), 3);
+		cout << storeLabels;
+		global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+		cout << menuLabel;
+
+		global.drawRectangle(lefts, top, width, height);
+		global.gotoXY(leftBox, top + 3);
+		cout << "Last Name: " << employee.getEmployeeLastName() << endl;
+		global.gotoXY(leftBox, top + 4);
+		cout << "First Name: " << employee.getEmployeeFirstName() << endl;
+		global.gotoXY(leftBox, top + 5);
+		cout << "Gender: " << employee.getEmployeeGender() << endl;
+		global.gotoXY(leftBox, top + 6);
+		cout << "Staff ID: " << employee.getEmployeeID() << endl;
+		global.gotoXY(leftBox, top + 7);
+		cout << "Date of Birth: " << employee.getEmployeeBirth() << endl;
+
+		global.gotoXY(leftBox, top + 9);
+		global.setColor(initMenuColor[0]);
+		cout << "Exit";
+		key = _getch();
+		
+		if (key == '\r') {
+			exit = true;
+		}
+	}
+
+	option.userAccountMenu();
+
 }
