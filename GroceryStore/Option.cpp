@@ -120,7 +120,7 @@ void Option::StoreOption::storeMenu()
 			switch (this->counter) {
 			case 1: this->option = "shopping"; login.configLogin();  isChosen = true; break;
 			case 2: this->option = "checkinven"; store.checkInventory(); isChosen = true; break;
-			case 3: this->option = "arrange"; global.generateMenu(); isChosen = true; break;
+			case 3: this->option = "arrange"; store.arrangeProduct(); isChosen = true; break;
 			case 4: this->option = "exit"; global.generateMenu(); isChosen = true; break;
 			}
 		

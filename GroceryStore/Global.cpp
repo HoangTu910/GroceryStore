@@ -48,7 +48,7 @@ void Global::drawRectangle(int left, int top, int width, int height)
 	for (int i = 0; i <= height; ++i) {
 		gotoXY(left, top + i + 1);
 		cout << char(186);
-	}
+	}	
 	gotoXY(left, top + height + 1);
 	cout << char(200);
 	for (int i = 0; i < width; ++i) {
@@ -150,7 +150,7 @@ void Global::generateMenu()
 			switch (this->counter) {
 			case 1: this->option = "user"; option.userAccountMenu(); break;
 			case 2: this->option = "customer";  cout << "customer "; break;
-			case 3: this->option = "inventory";  drawMenu(10, 2, "Inventory", "Hello", "1. Test1", "2. Test2"); break;
+			case 3: this->option = "import";  drawMenu(10, 4, "IMPORT PRODUCT", "CHOOSE SUPPLIER BRAND", "1. Drinks Factory", "2. Fruit Market", "3. Tool Factory", "4. Create New Product"); break;
 			case 4: this->option = "store";  option.storeMenu(); break;
 			case 5: cout << "Exit "; generateLogin(); break;
 			}
@@ -246,7 +246,6 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 			}
 		}
 	}
-
 }
 
 
