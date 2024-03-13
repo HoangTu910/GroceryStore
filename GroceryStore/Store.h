@@ -6,16 +6,15 @@ class Store
 {
 private:
 	vector<Product> productOnSell;
-	Inventory inv;
 public:
 	void showSingleProduct(Product& product);
-	void checkInventory();
-	void arrangeProduct();
+	void checkInventory(vector<Product>& inv);
+	void arrangeProduct(vector<Product>& inv);
 	bool findInVector(vector<int> &vector, int number);
 	void removeInVector(vector<int> &vector, int number);
 	vector<Product> getProductOnSell();
-	int getProductElement(vector<Product>vector, Product product);
-	void editProductOnSell();
+	int getProductElement(vector<Product> vector, Product product);
+	void editProductOnSell(vector<Product>& inv);
 	void removeProductInVector(vector<Product>& vector, Product product);
 	void goShopping();
 	void showSingleSellProduct(Product& product);

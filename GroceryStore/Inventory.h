@@ -12,7 +12,6 @@ using namespace std;
 class Inventory
 {
 private:
-	vector<Product> inventory;
 	int inventoryCapacity = 100;
 public:
 	Inventory();
@@ -21,5 +20,6 @@ public:
 	int getInventoryCapacity();
 	vector<Product> getInventory();
 	Product& getProduct(size_t index);
+	vector<Product> inventory;
 };
 

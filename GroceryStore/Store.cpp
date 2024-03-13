@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void Store::checkInventory()
+void Store::checkInventory(vector<Product>& inv)
 {
     system("cls");
     vector<int> initMenuColor = { 7,7 };
@@ -23,7 +23,7 @@ void Store::checkInventory()
     string storeLabels = "STORE";
     string menuLabel = "CHECK INVENTORY";
     while (true) {
-        if (inv.getInventory().empty()) {
+        if (inv.empty()) {
             std::cout << "Inventory is empty." << std::endl;
         }
         else {
@@ -39,9 +39,9 @@ void Store::checkInventory()
             cout << setw(16) << left << "  Name Product";
             cout << setw(16) << left << "  Price";
             cout << "  Quantity" << endl;
-            for (int i = 0; i < inv.getInventory().size(); i++) {
+            for (int i = 0; i < inv.size(); i++) {
                 global.gotoXY(leftBox, top + 5 + i + 1);
-                showSingleProduct(inv.getInventory()[i]);
+                showSingleProduct(inv[i]);
                 geti = i;
             }
 
@@ -97,7 +97,7 @@ void Store::removeInVector(vector<int>& vector, int number) {
 }
 
 
-void Store::arrangeProduct()
+void Store::arrangeProduct(vector<Product>& inv)
 {
     Global global;
     system("cls");
@@ -114,15 +114,15 @@ void Store::arrangeProduct()
     char key;
     string storeLabels = "STORE";
     string menuLabel = "ARRANGE PRODUCT";
-    int invenSize = inv.getInventory().size();
+    int invenSize = inv.size();
     vector<int> isChosen;
     char checkBox;
 
-    for (int i = 0; i < inv.getInventory().size() + 3; i++) {
+    for (int i = 0; i < inv.size() + 3; i++) {
         initMenuColor.push_back(7);
     }
     while (true) {
-        if (inv.getInventory().empty()) {
+        if (inv.empty()) {
             std::cout << "Inventory is empty." << std::endl;
         }
         else {
@@ -139,10 +139,10 @@ void Store::arrangeProduct()
             cout << setw(16) << left << "  Name Product";
             cout << setw(16) << left << "  Price";
             cout << "  Quantity" << endl;
-            for (int i = 0; i < inv.getInventory().size(); i++) {
+            for (int i = 0; i < inv.size(); i++) {
                 global.gotoXY(leftBox, top + 5 + i + 1);
                 global.setColor(initMenuColor[i]);
-                showSingleProduct(inv.getInventory()[i]);
+                showSingleProduct(inv[i]);
                 geti = i;
             }
 
@@ -167,7 +167,7 @@ void Store::arrangeProduct()
 
             if (key == '\r') {
                 switch (counter) {
-                case 10: this->editProductOnSell();
+                case 10: this->editProductOnSell(inv);
                 case 11: cout << "page"; break;
                 case 12: option.storeMenu(); break;
                 default: break;
@@ -176,19 +176,19 @@ void Store::arrangeProduct()
                 cout << check;
                 if (check) {
                     removeInVector(isChosen, counter - 1);
-                    this->removeProductInVector(this->productOnSell, inv.getInventory()[counter - 1]);
+                    this->removeProductInVector(this->productOnSell, inv[counter - 1]);
                     checkBox = ' ';
                 }
                 else {
                     isChosen.push_back(counter - 1);
-                    this->productOnSell.push_back(inv.getInventory()[counter - 1]);
+                    this->productOnSell.push_back(inv[counter - 1]);
                     checkBox = char(219);
                 }
                 global.gotoXY(width + lefts - 2, top + 5 + counter - 1 + 1);
                 cout << checkBox;
             }
 
-            for (int i = 0; i < inv.getInventory().size() + 3; i++) {
+            for (int i = 0; i < inv.size() + 3; i++) {
              
                 initMenuColor[i] = 7;
             }   
@@ -239,7 +239,8 @@ void Store::goShopping()
 
 }
 
-void Store::editProductOnSell()
+
+void Store::editProductOnSell(vector<Product>& inv)
 {
     Global global;
     system("cls");
@@ -257,9 +258,10 @@ void Store::editProductOnSell()
     bool once = true;
     string storeLabels = "STORE";
     string menuLabel = "EDIT PRICE AND QUANTITY BEFORE ON SELL";
-    int invenSize = inv.getInventory().size();
+    int invenSize = inv.size();
     vector<int> isChosen;
     char checkBox;
+
 
     for (int i = 0; i < 3; i++) {
         initMenuColor.push_back(7);
@@ -302,7 +304,7 @@ void Store::editProductOnSell()
             while (once) {
                 for (int i = 0; i < this->productOnSell.size(); i++) {
                     global.hideCursor(false);
-                    vector<Product> maskVector(inv.getInventory());
+                    vector<Product> maskVector(inv);
                     int index = getProductElement(maskVector, this->productOnSell[i]);
                     cout << "Check: " << index;
                     float sellPrice;
@@ -313,7 +315,7 @@ void Store::editProductOnSell()
                     cin >> sellQuantity;
                     this->productOnSell[i].setSellPrice(sellPrice);
                     this->productOnSell[i].setSellQuantity(sellQuantity);
-                    int productQuantity = inv.getInventory()[index].getProductQuantity();
+                    int productQuantity = inv[index].getProductQuantity();
                     int productLeft = productQuantity - sellQuantity;
                     if (productLeft < 0) {
                         productLeft = productQuantity;
@@ -322,7 +324,7 @@ void Store::editProductOnSell()
                         productLeft = productLeft;
                     }
                     cout << 1;
-                    inv.getInventory()[index].setQuantity(productLeft);
+                    inv[index].setQuantity(productLeft);
                 }
                 once = false;
             }
