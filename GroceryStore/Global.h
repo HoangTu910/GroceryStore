@@ -26,6 +26,7 @@ public:
 	int getTerminalHeight();
 	int leftCenter(int width);
 	int leftCenterBox(int boxWidth, int width);
+	void loadingEffect(string text);
 
 
 	//getter & setter
@@ -37,6 +38,7 @@ public:
 	int drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...);
 	//init login
 	void generateLogin();
+	
 
 };
 

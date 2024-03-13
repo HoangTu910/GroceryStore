@@ -10,7 +10,6 @@ void Store::checkInventory()
     system("cls");
     vector<int> initMenuColor = { 7,7 };
     char keyPressed;
-	Inventory inv;
     Global global;
     Option option;
     int width = 80;
@@ -19,7 +18,6 @@ void Store::checkInventory()
     int lefts = global.leftCenter(width);
     int leftBox = global.leftCenterBox(width, 74);
     int geti = 0;
-    inv.initProduct();
     int counter = 1;
     char key;
     string storeLabels = "STORE";
@@ -105,7 +103,6 @@ void Store::arrangeProduct()
     system("cls");
     vector<int> initMenuColor;
     char keyPressed;
-    Inventory inv;
     Option option;
     int width = 80;
     int height = 20;
@@ -113,7 +110,6 @@ void Store::arrangeProduct()
     int lefts = global.leftCenter(width);
     int leftBox = global.leftCenterBox(width, 74);
     int geti = 0;
-    inv.initProduct();
     int counter = 1;
     char key;
     string storeLabels = "STORE";
@@ -171,6 +167,7 @@ void Store::arrangeProduct()
 
             if (key == '\r') {
                 switch (counter) {
+                case 10: this->editProductOnSell();
                 case 11: cout << "page"; break;
                 case 12: option.storeMenu(); break;
                 default: break;
@@ -179,10 +176,12 @@ void Store::arrangeProduct()
                 cout << check;
                 if (check) {
                     removeInVector(isChosen, counter - 1);
+                    this->removeProductInVector(this->productOnSell, inv.getInventory()[counter - 1]);
                     checkBox = ' ';
                 }
                 else {
                     isChosen.push_back(counter - 1);
+                    this->productOnSell.push_back(inv.getInventory()[counter - 1]);
                     checkBox = char(219);
                 }
                 global.gotoXY(width + lefts - 2, top + 5 + counter - 1 + 1);
@@ -205,4 +204,160 @@ void Store::showSingleProduct(Product &product)
     cout << "  " << setw(14) << left << product.getProductName();
     cout << "  " << setw(14) << left << product.getProductPrice();
     cout << "  " << product.getProductQuantity() << endl;
+}
+
+
+void Store::showSingleSellProduct(Product& product)
+{
+    cout << "  " << setw(14) << left << product.getProductID();
+    cout << "  " << setw(14) << left << product.getCategory();
+    cout << "  " << setw(14) << left << product.getProductName();
+    /*cout << "  " << setw(14) << left << product.getSellPrice();
+    cout << "  " << product.getSellQuantity() << endl;*/
+}
+
+
+int Store::getProductElement(vector<Product> vector, Product product)
+{
+    for (int i = 0; i < vector.size(); i++) {
+        if (vector[i].getProductID() == product.getProductID()) {
+            return i;
+            break;
+        }
+    }
+    return 0;     
+}
+
+
+
+vector<Product> Store::getProductOnSell() {
+    return this->productOnSell;
+}
+
+void Store::goShopping()
+{
+
+}
+
+void Store::editProductOnSell()
+{
+    Global global;
+    system("cls");
+    vector<int> initMenuColor;
+    char keyPressed;
+    Option option;
+    int width = 80;
+    int height = 20;
+    int top = 7;
+    int lefts = global.leftCenter(width);
+    int leftBox = global.leftCenterBox(width, 74);
+    int geti = 0;
+    int counter = 1;
+    char key;
+    bool once = true;
+    string storeLabels = "STORE";
+    string menuLabel = "EDIT PRICE AND QUANTITY BEFORE ON SELL";
+    int invenSize = inv.getInventory().size();
+    vector<int> isChosen;
+    char checkBox;
+
+    for (int i = 0; i < 3; i++) {
+        initMenuColor.push_back(7);
+    }
+    while (true) {
+        if (this->productOnSell.empty()) {
+            std::cout << "Inventory is empty." << std::endl;
+        }
+        else {
+            global.setColor(7);
+            global.gotoXY(global.leftCenter(storeLabels.length() - 1), 3);
+            cout << storeLabels;
+            global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+            cout << menuLabel;
+
+            global.drawRectangle(lefts, top, width, height);
+            global.gotoXY(leftBox, top + 3);
+            cout << setw(16) << left << "  ID Product";
+            cout << setw(16) << left << "  Categorize";
+            cout << setw(16) << left << "  Name Product";
+            cout << setw(16) << left << "  Price";
+            cout << "  Quantity" << endl;
+
+            for (int i = 0; i < this->productOnSell.size(); i++) {
+                global.gotoXY(leftBox, top + 5 + i + 1);
+                showSingleSellProduct(this->productOnSell[i]);
+                geti = i;
+            }
+
+            global.gotoXY(global.leftCenter(17), top + 5 + geti + 4);
+            global.setColor(initMenuColor[0]);
+            cout << "[UPLOAD TO STORE]";
+            global.gotoXY(global.leftCenter(4), top + 5 + geti + 6);
+            global.setColor(initMenuColor[1]);
+            cout << "Page";
+            global.gotoXY(global.leftCenter(4), top + 5 + geti + 8);
+            global.setColor(initMenuColor[2]);
+            cout << "Exit";
+
+            while (once) {
+                for (int i = 0; i < this->productOnSell.size(); i++) {
+                    global.hideCursor(false);
+                    vector<Product> maskVector(inv.getInventory());
+                    int index = getProductElement(maskVector, this->productOnSell[i]);
+                    cout << "Check: " << index;
+                    float sellPrice;
+                    int sellQuantity;
+                    global.gotoXY(73, top + 5 + i + 1);
+                    cin >> sellPrice;
+                    global.gotoXY(89, top + 5 + i + 1);
+                    cin >> sellQuantity;
+                    this->productOnSell[i].setSellPrice(sellPrice);
+                    this->productOnSell[i].setSellQuantity(sellQuantity);
+                    int productQuantity = inv.getInventory()[index].getProductQuantity();
+                    int productLeft = productQuantity - sellQuantity;
+                    if (productLeft < 0) {
+                        productLeft = productQuantity;
+                    }
+                    else {
+                        productLeft = productLeft;
+                    }
+                    inv.getInventory()[index].setQuantity(productLeft);
+                }
+                once = false;
+            }
+
+            global.hideCursor(true);
+            key = _getch();
+            if (key == 'w' && (counter >= 2 && counter <= 3)) {
+                counter--;
+            }
+
+            if (key == 's' && (counter >= 1 && counter <= 2)) {
+                counter++;
+            }
+
+            if (key == '\r') {
+                switch (counter) {
+                case 1: system("cls"); global.loadingEffect("Uploading..."); option.storeMenu(); break;
+                case 2: cout << "page"; break;
+                case 3: option.storeMenu(); break;
+                default: break;
+                }
+            }
+
+            for (int i = 0; i < 3; i++) {
+                initMenuColor[i] = 7;
+            }
+            initMenuColor[counter - 1] = 3;
+        }
+    }
+}
+
+void Store::removeProductInVector(vector<Product>& vector, Product product)
+{
+    for (int i = 0; i < vector.size(); i++) {
+        if (vector[i].getProductID() == product.getProductID()) {
+            vector.erase(vector.begin() + i);
+        }
+    }
 }

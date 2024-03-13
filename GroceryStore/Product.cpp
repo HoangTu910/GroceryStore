@@ -30,6 +30,21 @@ void Product::setProductID(int id)
 	this->productID = id;
 }
 
+void Product::setSellPrice(float price)
+{
+	this->sellPrice = price;
+}
+
+void Product::setSellQuantity(int quantity)
+{
+	this->sellQuantity = quantity;
+}
+
+void Product::setQuantity(int quantity)
+{
+	this->quantity = quantity;
+}
+
 string Product::getProductName()
 {
 	return this->productName;
@@ -53,4 +68,14 @@ int Product::getProductID()
 int Product::getProductQuantity()
 {
 	return this->quantity;
+}
+
+float Product::getSellPrice()
+{
+	return this->sellPrice;
+}
+
+int Product::getSellQuantity()
+{
+	return sellQuantity;
 }

@@ -16,6 +16,8 @@ private:
 	float productPrice;
 	int productID;
 	int quantity;
+	float sellPrice = 0;
+	int sellQuantity = 0;
 public:
 	Product(string productName, string category, float price, int id, int quantity);
 	//getter & setter
@@ -23,11 +25,16 @@ public:
 	void setCategory(string cat);
 	void setProductPrice(float price);
 	void setProductID(int id);
+	void setSellPrice(float price);
+	void setSellQuantity(int quantity);
+	void setQuantity(int quantity);
 
 	string getProductName();
 	string getCategory();
 	float getProductPrice();
 	int getProductID();
 	int getProductQuantity();
+	float getSellPrice();
+	int getSellQuantity();
 };
 

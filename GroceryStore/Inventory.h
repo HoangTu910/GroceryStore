@@ -15,9 +15,10 @@ private:
 	vector<Product> inventory;
 	int inventoryCapacity = 100;
 public:
+	Inventory();
 	void initProduct();
 	void checkInventory();
 	int getInventoryCapacity();
-	vector<Product> getInventory();
+	vector<Product>& getInventory();
 };
 

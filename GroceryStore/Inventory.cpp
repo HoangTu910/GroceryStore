@@ -4,6 +4,10 @@
 Product createProduct(const std::string& name, const std::string& category, float price, int id, int quantity) {
 	return Product(name, category, price, id, quantity);
 }
+Inventory::Inventory()
+{
+	initProduct();
+}
 void Inventory::initProduct()
 {
 	Product apple("Apple", "fruit", 100, 101, 50);
@@ -35,7 +39,7 @@ int Inventory::getInventoryCapacity()
 	return this->inventoryCapacity;
 }
 
-vector<Product> Inventory::getInventory()
+vector<Product>& Inventory::getInventory()
 {
 	return this->inventory;
 }

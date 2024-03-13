@@ -91,6 +91,36 @@ int Global::leftCenterBox(int boxWidth, int width) {
 	return windowWidth;
 }
 
+void Global::loadingEffect(string text)
+{
+	system("cls");
+	int width = 46;
+	int height = 5;
+	int top = 7;
+	int left = leftCenter(width);
+	char keyPressed;
+	drawRectangle(left, top, width, height);
+	do {
+		gotoXY(left + 2, top + 1);
+		cout << text;
+		for (int i = 0; i < 44; i++) {
+			Sleep(10);
+			gotoXY(left + 2 + i, top + 2);
+			cout << char(220);
+		}
+		gotoXY(left + 2, top + 4);
+		cout << "Finished upload ! Press 'r' to continue...";
+		if (_kbhit()) {
+			keyPressed = _getch();
+			if (keyPressed == 'r' || keyPressed == 'R') {
+				system("cls");
+				break;
+			}
+		}
+	} while (true);
+	
+}
+
 
 void Global::generateMenu()
 {
@@ -247,6 +277,8 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 		}
 	}
 }
+
+
 
 
 void Global::generateLogin()
