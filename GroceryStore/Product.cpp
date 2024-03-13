@@ -79,3 +79,5 @@ int Product::getSellQuantity()
 {
 	return sellQuantity;
 }
+
+

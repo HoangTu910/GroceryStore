@@ -19,6 +19,7 @@ public:
 	void initProduct();
 	void checkInventory();
 	int getInventoryCapacity();
-	vector<Product>& getInventory();
+	vector<Product> getInventory();
+	Product& getProduct(size_t index);
 };
 

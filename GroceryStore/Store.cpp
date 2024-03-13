@@ -32,7 +32,6 @@ void Store::checkInventory()
             cout << storeLabels;
             global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
             cout << menuLabel;
-
             global.drawRectangle(lefts, top, width, height);
             global.gotoXY(leftBox, top + 3);
             cout << setw(16) << left << "  ID Product";
@@ -88,6 +87,7 @@ bool Store::findInVector(vector<int>& vector, int number) {
     }
     return false;
 }
+
 void Store::removeInVector(vector<int>& vector, int number) {
     for (int i = 0; i < vector.size(); i++) {
         if (vector[i] == number) {
@@ -321,6 +321,7 @@ void Store::editProductOnSell()
                     else {
                         productLeft = productLeft;
                     }
+                    cout << 1;
                     inv.getInventory()[index].setQuantity(productLeft);
                 }
                 once = false;
@@ -348,6 +349,7 @@ void Store::editProductOnSell()
             for (int i = 0; i < 3; i++) {
                 initMenuColor[i] = 7;
             }
+            
             initMenuColor[counter - 1] = 3;
         }
     }

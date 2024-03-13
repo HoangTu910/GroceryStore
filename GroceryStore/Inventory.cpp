@@ -39,10 +39,20 @@ int Inventory::getInventoryCapacity()
 	return this->inventoryCapacity;
 }
 
-vector<Product>& Inventory::getInventory()
+vector<Product> Inventory::getInventory()
 {
 	return this->inventory;
 }
+
+Product& Inventory::getProduct(size_t index)
+{
+	if (index < this->inventory.size()) {
+		return this->inventory[index];
+	}
+	throw std::out_of_range("Index out of range");
+}
+
+
 
 
 
