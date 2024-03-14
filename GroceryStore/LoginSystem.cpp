@@ -5,6 +5,7 @@ void LoginSystem::configLogin()
 {
 	system("cls");
 	Global global;
+	global.hideCursor(false);
 	string password = "";
 	string newPassword = "0";
 	string username;

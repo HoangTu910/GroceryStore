@@ -140,3 +140,37 @@ void Option::StoreOption::storeMenu()
 		}
 	}
 }
+
+void Option::CustomerOption::customerMenu(Customer& customerReference)
+{
+	Global global;
+	int option = global.drawMenu(10, 2, "Grocery Store Management", "Manage Customer", "1. Show Customers Infomation", "2. Config Customers Info");
+	switch (option) {
+	case 1: 
+		system("cls");
+		customerReference.showCustomerList(); global.generateMenu(); break;
+	case 2:
+		cout << "Customer Option 2"; break;
+	case 3:
+		global.generateMenu(); break;
+	}
+}
+
+void Option::ImportOption::importMenu()
+{
+	Global global;
+	int option = global.drawMenu(10, 3, "IMPORT PRODUCT", "CHOOSE SUPPLIER BRAND", "1. Drinks Factory", "2. Fruit Market", "3. Tool Factory");
+	switch (option) {
+	case 1:
+		global.generateMenu(); break;
+	case 2:
+		global.generateMenu(); break;
+	case 3:
+		global.generateMenu(); break;
+	case 4:
+		global.generateMenu(); break;
+	case 5:
+		global.generateMenu(); break;
+	}
+}
+

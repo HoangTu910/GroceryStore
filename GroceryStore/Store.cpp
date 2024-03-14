@@ -123,7 +123,8 @@ void Store::arrangeProduct(vector<Product>& inv)
     }
     while (true) {
         if (inv.empty()) {
-            std::cout << "Inventory is empty." << std::endl;
+            global.notiBox("Nothing to push.");
+            option.storeMenu();
         }
         else {
             global.setColor(7);
@@ -173,7 +174,6 @@ void Store::arrangeProduct(vector<Product>& inv)
                 default: break;
                 }
                 bool check = findInVector(isChosen, counter - 1);
-                cout << check;
                 if (check) {
                     removeInVector(isChosen, counter - 1);
                     this->removeProductInVector(this->productOnSell, inv[counter - 1]);
@@ -196,6 +196,7 @@ void Store::arrangeProduct(vector<Product>& inv)
         }
     }
 }
+
 
 void Store::showSingleProduct(Product &product)
 {
@@ -238,7 +239,10 @@ void Store::goShopping()
 {
 
 }
-
+//void Store::editProductOnSell(Inventory& inv)
+//{
+//
+//}
 
 void Store::editProductOnSell(vector<Product>& inv)
 {
@@ -268,7 +272,8 @@ void Store::editProductOnSell(vector<Product>& inv)
     }
     while (true) {
         if (this->productOnSell.empty()) {
-            std::cout << "Inventory is empty." << std::endl;
+            global.notiBox("Inventory is empty");
+            option.storeMenu();
         }
         else {
             global.setColor(7);
@@ -306,7 +311,6 @@ void Store::editProductOnSell(vector<Product>& inv)
                     global.hideCursor(false);
                     vector<Product> maskVector(inv);
                     int index = getProductElement(maskVector, this->productOnSell[i]);
-                    cout << "Check: " << index;
                     float sellPrice;
                     int sellQuantity;
                     global.gotoXY(73, top + 5 + i + 1);
@@ -323,7 +327,6 @@ void Store::editProductOnSell(vector<Product>& inv)
                     else {
                         productLeft = productLeft;
                     }
-                    cout << 1;
                     inv[index].setQuantity(productLeft);
                 }
                 once = false;

@@ -27,6 +27,7 @@ public:
 	int leftCenter(int width);
 	int leftCenterBox(int boxWidth, int width);
 	void loadingEffect(string text);
+	void notiBox(string text);
 
 
 	//getter & setter

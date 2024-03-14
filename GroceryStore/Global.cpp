@@ -121,12 +121,39 @@ void Global::loadingEffect(string text)
 	
 }
 
+void Global::notiBox(string text)
+{
+	system("cls");
+	setColor(7);
+	Global global;
+	int width = text.length() + 26 + 20;
+	int height = 10;
+	int top = 7;
+	int left = leftCenter(width);
+	int leftBox = global.leftCenterBox(width, text.length()+26);
+	char keyPressed;
+	global.drawRectangle(left, top, width, height);
+	do {
+		global.gotoXY(leftBox, top + 2);
+		cout << text + "! Press 'r' to continue...";
+		if (_kbhit()) {
+			keyPressed = _getch();
+			if (keyPressed == 'r' || keyPressed == 'R') {
+				system("cls");
+				break;
+			}
+		}
+	} while (true);
+
+}
+
 
 void Global::generateMenu()
 {
 	system("cls");
 	setColor(7);
 	Option option;
+	Customer customer;
 	this->initMenuColor = { 7, 7, 7, 7, 7 };
 	this->counter = 3;
 	int width = 46;
@@ -147,23 +174,23 @@ void Global::generateMenu()
 		gotoXY(leftCenter(menuLabel.length() - 1), 5);
 		cout << menuLabel;
 
-		gotoXY(leftCenter(userLabel.length() - 1), top + 3);
+		gotoXY(leftCenter(userLabel.length()+2 - 1), top + 3);
 		setColor(this->initMenuColor[0]);
 		cout << userLabel;
 
-		gotoXY(leftCenter(userLabel.length() - 1), top + 4);
+		gotoXY(leftCenter(userLabel.length()+2 - 1), top + 4);
 		setColor(this->initMenuColor[1]);
 		cout << customerLabel;
 
-		gotoXY(leftCenter(userLabel.length() - 1), top + 5);
+		gotoXY(leftCenter(userLabel.length()+2 - 1), top + 5);
 		setColor(this->initMenuColor[2]);
 		cout << inventoryLabel;
 
-		gotoXY(leftCenter(userLabel.length() - 1), top + 6);
+		gotoXY(leftCenter(userLabel.length()+2 - 1), top + 6);
 		setColor(this->initMenuColor[3]);
 		cout << storeLabel;
 
-		gotoXY(leftCenter(userLabel.length() - 1), top + 8);
+		gotoXY(leftCenter(userLabel.length()+2 - 1), top + 8);
 		setColor(this->initMenuColor[4]);
 		cout << "Exit";
 
@@ -179,8 +206,8 @@ void Global::generateMenu()
 		if (this->key == '\r') {
 			switch (this->counter) {
 			case 1: this->option = "user"; option.userAccountMenu(); break;
-			case 2: this->option = "customer";  cout << "customer "; break;
-			case 3: this->option = "import";  drawMenu(10, 4, "IMPORT PRODUCT", "CHOOSE SUPPLIER BRAND", "1. Drinks Factory", "2. Fruit Market", "3. Tool Factory", "4. Create New Product"); break;
+			case 2: this->option = "customer";  option.customerMenu(customer); break;
+			case 3: this->option = "import";  option.importMenu(); break;
 			case 4: this->option = "store";  option.storeMenu(); break;
 			case 5: cout << "Exit "; generateLogin(); break;
 			}
@@ -201,6 +228,18 @@ void Global::generateMenu()
 		}
 	}
 }
+
+
+int findMaxString(vector<string> vector) {
+	int max = 0;
+	for (int i = 0; i < vector.size(); i++) {
+		if (vector[i].length() > max) {
+			max = vector[i].length();
+		}
+	}
+	return max;
+}
+
 
 int Global::drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...)
 {
@@ -226,6 +265,7 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 		initMenuColor.push_back(7);
 	}
 
+	int alignLeft = findMaxString(menuList);
 	int width = 46;
 	int top = 7;
 	int left = leftCenter(width);
@@ -240,13 +280,13 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 		cout << menuLabel;
 
 		for (int i = 0; i < menuList.size(); i++) {
-			gotoXY(leftCenter(userLabel.length() - 1), top + 3 + i);
+			gotoXY(leftCenter(alignLeft - 1), top + 3 + i);
 			setColor(initMenuColor[i]);
 			cout << menuList[i];
 			geti = i;
 		}
 		
-		gotoXY(leftCenter(userLabel.length() - 1), top + 3 + geti + 2);
+		gotoXY(leftCenter(alignLeft - 1), top + 3 + geti + 2);
 		setColor(initMenuColor[numberMenu]);
 		cout << "Exit";
 
@@ -279,11 +319,10 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 }
 
 
-
-
 void Global::generateLogin()
 {
 	setColor(7);
+	hideCursor(false);
 	string password;
 	string username;
 	string warnLabel = "Welcome user";
@@ -344,6 +383,8 @@ void Global::generateLogin()
 	} while (username != employee.getEmployeeUserName() || password != employee.getEmployeePassword());
 	this->generateMenu();
 }
+
+
 
 
 
