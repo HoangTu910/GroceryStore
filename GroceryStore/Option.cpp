@@ -159,10 +159,11 @@ void Option::CustomerOption::customerMenu(Customer& customerReference)
 void Option::ImportOption::importMenu()
 {
 	Global global;
+	Inventory inv;
 	int option = global.drawMenu(10, 3, "IMPORT PRODUCT", "CHOOSE SUPPLIER BRAND", "1. Drinks Factory", "2. Fruit Market", "3. Tool Factory");
 	switch (option) {
 	case 1:
-		global.generateMenu(); break;
+		inv.importProduct(); break;
 	case 2:
 		global.generateMenu(); break;
 	case 3:

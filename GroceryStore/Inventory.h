@@ -17,6 +17,7 @@ public:
 	Inventory();
 	void initProduct();
 	void checkInventory();
+	void importProduct();
 	int getInventoryCapacity();
 	vector<Product> getInventory();
 	Product& getProduct(size_t index);

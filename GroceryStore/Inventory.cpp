@@ -1,5 +1,5 @@
 #include "Inventory.h"
-
+#include "drawBox.h"
 
 Product createProduct(const std::string& name, const std::string& category, float price, int id, int quantity) {
 	return Product(name, category, price, id, quantity);
@@ -32,6 +32,16 @@ void Inventory::initProduct()
 void Inventory::checkInventory()
 {
 
+}
+
+void Inventory::importProduct()
+{
+	system("cls");
+	Global global;
+	global.initBar(3, "ID Product", "Categorize", "Name Product");
+	while (true) {
+		
+	}
 }
 
 int Inventory::getInventoryCapacity()

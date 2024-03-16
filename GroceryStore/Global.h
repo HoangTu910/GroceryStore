@@ -1,5 +1,6 @@
 #pragma once
 #include "Employee.h"
+#include "drawBox.h"
 #include<iostream>
 #include<windows.h>
 #include<conio.h>
@@ -37,6 +38,7 @@ public:
 	//init menu
 	void generateMenu();
 	int drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...);
+	void initBar(int number, ...);
 	//init login
 	void generateLogin();
 	

@@ -2,6 +2,7 @@
 #include "Employee.h"
 #include "Option.h"
 #include <cstdarg>
+#include <iomanip>
 
 using namespace std;
 
@@ -316,6 +317,39 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 			}
 		}
 	}
+}
+
+
+void Global::initBar(int number, ...)
+{
+	vector<string> menuList;
+	va_list args;
+	Global global;
+	va_start(args, number);
+	int length = 0;
+	int geti = 0;
+	for (int i = 0; i < number; i++) {
+		char* str = va_arg(args, char*);
+		string menuItem(str);
+		menuList.push_back(menuItem);
+	}
+
+	va_end(args);
+	for (int i = 0; i < menuList.size()-1; i++) {
+		length = length + 18;
+		geti = i;
+	}
+
+	drawBox drawBox(length + menuList[geti+1].length()-1+11, 10);
+	int leftBox = global.leftCenterBox(length + menuList[geti + 1].length()-1 + 11, length + menuList[geti + 1].length()-1);
+	global.gotoXY(leftBox, 9);
+	geti = 0;
+	for (int i = 0; i < menuList.size() - 1; i++) {
+		cout << setw(18) << left << menuList[i];
+		geti = i;
+	}
+	cout << menuList[geti+1];
+
 }
 
 

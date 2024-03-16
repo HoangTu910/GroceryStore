@@ -192,7 +192,7 @@ void Store::arrangeProduct(vector<Product>& inv)
              
                 initMenuColor[i] = 7;
             }   
-            initMenuColor[counter - 1] = 3;
+            initMenuColor[counter - 1] = 3; //ha
         }
     }
 }

@@ -3,6 +3,7 @@
 #include "LoginSystem.h"
 #include "Store.h"
 #include "Customer.h"
+#include "Inventory.h"
 
 
 class initMenu{

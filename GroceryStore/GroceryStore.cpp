@@ -5,5 +5,4 @@ int main() {
 	while (true) {
 		global.generateLogin();
 	}
-	
 }

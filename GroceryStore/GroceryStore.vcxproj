@@ -128,9 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="drawBox.cpp" />
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GroceryStore.cpp" />
+    <ClCompile Include="Import.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="LoginSystem.cpp" />
     <ClCompile Include="Option.cpp" />
@@ -139,8 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="drawBox.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Import.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="LoginSystem.h" />
     <ClInclude Include="Option.h" />
