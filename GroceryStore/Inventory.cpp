@@ -23,25 +23,61 @@ void Inventory::initProduct()
 	Product firstAid("First Aid", "other", 180, 302, 50);
 	Product snack("Snack", "other", 70, 303, 50);
 
-	this->inventory = {
-		apple, banana, pencil, ruler, eraser, notebook, sweeper, firstAid, snack
-	};
+	this->inventory = { apple, banana, pencil, ruler, eraser, notebook, sweeper, snack, lemon, firstAid};
 
 }
+
 
 void Inventory::checkInventory()
 {
 
 }
 
-void Inventory::importProduct()
+void Inventory::importProduct(Inventory& inv)
 {
-	system("cls");
 	Global global;
-	global.initBar(3, "ID Product", "Categorize", "Name Product");
-	while (true) {
-		
+	int getNum = global.getNumberElementBox("NUMBER PRODUCT TO IMPORT (<10)");
+	system("cls");
+	global.hideCursor(false);
+	string storeLabels = "GROCERY STORE MANAGMENT";
+	string menuLabel = "IMPORT PRODUCT (USER)";
+	int col = 0;
+	int row = 0;
+	int num = 0;
+	int distance = 18;
+	int initPosRow = 21;
+	global.setColor(7);
+	global.gotoXY(global.leftCenter(storeLabels.length() - 1), 3);
+	cout << storeLabels;
+	global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+	cout << menuLabel;
+	global.initBar(getNum, 5, "ID Product", "Categorize", "Name Product", "Price", "Quantity");
+	while (num < getNum) {
+		int id, quantity;
+		string category, name;
+		float price;
+		global.gotoXY(initPosRow + row, 5 + 5 + col + 1);
+		cin >> id;
+		row += distance;
+		global.gotoXY(initPosRow + row, 5 + 5 + col + 1);
+		cin >> category;
+		row += distance;
+		global.gotoXY(initPosRow + row, 5 + 5 + col + 1);
+		cin >> name;
+		row += distance;
+		global.gotoXY(initPosRow + row, 5 + 5 + col + 1);
+		cin >> price;
+		row += distance;
+		global.gotoXY(initPosRow + row, 5 + 5 + col + 1);
+		cin >> quantity;
+		row += distance;
+		col++;
+		row = 0;
+		num++;
+		inv.inventory.push_back(Product(name, category, price, id, quantity));
 	}
+	global.hideCursor(true);
+	global.generateMenu();
 }
 
 int Inventory::getInventoryCapacity()

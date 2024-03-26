@@ -148,6 +148,40 @@ void Global::notiBox(string text)
 
 }
 
+int Global::getNumberElementBox(string text)
+{
+	int num;
+	system("cls");
+	setColor(7);
+	Global global;
+	global.hideCursor(false);
+	int width = text.length() + 25;
+	int height = 5;
+	int top = 7;
+	string menuLabel = "[NOTIFICATION]";
+	global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+	cout << menuLabel;
+	int left = leftCenter(width);
+	int leftBox = global.leftCenterBox(width, text.length()+2);
+	global.drawRectangle(left, top, width, height);
+	global.gotoXY(leftBox, top + 2);
+	cout << text << ": ";
+	cin >> num;
+	while (num > 10) {
+		system("cls");
+		string menuLabel = "[NOTIFICATION]";
+		global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+		cout << menuLabel;
+		int left = leftCenter(width);
+		int leftBox = global.leftCenterBox(width, text.length() + 2);
+		global.drawRectangle(left, top, width, height);
+		global.gotoXY(leftBox, top + 2);
+		cout << text << ": ";
+		cin >> num;
+	}
+	return num;
+}
+
 
 void Global::generateMenu()
 {
@@ -320,7 +354,7 @@ int Global::drawMenu(int height, int numberMenu, string storeLabels, string menu
 }
 
 
-void Global::initBar(int number, ...)
+void Global::initBar(int offSet, int number, ...)
 {
 	vector<string> menuList;
 	va_list args;
@@ -340,7 +374,7 @@ void Global::initBar(int number, ...)
 		geti = i;
 	}
 
-	drawBox drawBox(length + menuList[geti+1].length()-1+11, 10);
+	drawBox drawBox(length + menuList[geti+1].length()-1+11, 4+offSet);
 	int leftBox = global.leftCenterBox(length + menuList[geti + 1].length()-1 + 11, length + menuList[geti + 1].length()-1);
 	global.gotoXY(leftBox, 9);
 	geti = 0;
@@ -349,7 +383,6 @@ void Global::initBar(int number, ...)
 		geti = i;
 	}
 	cout << menuList[geti+1];
-
 }
 
 

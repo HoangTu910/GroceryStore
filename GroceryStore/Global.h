@@ -29,7 +29,7 @@ public:
 	int leftCenterBox(int boxWidth, int width);
 	void loadingEffect(string text);
 	void notiBox(string text);
-
+	int getNumberElementBox(string text);
 
 	//getter & setter
 	string getOption();
@@ -38,7 +38,7 @@ public:
 	//init menu
 	void generateMenu();
 	int drawMenu(int height, int numberMenu, string storeLabels, string menuLabel, ...);
-	void initBar(int number, ...);
+	void initBar(int offSet, int number, ...);
 	//init login
 	void generateLogin();
 	
