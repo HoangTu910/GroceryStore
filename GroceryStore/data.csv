@@ -1,10 +1,17 @@
-401,Electronics,Laptop,999,20
-501,Clothing,T-shirt,15,100
-601,Books,Novel,20,50
-402,Electronics,Smartphone,699,30
-502,Food,Pizza,10,200
-403,Electronics,Headphones,50,80
-503,Clothing,Jeans,40,60
-602,Books,Textbook,80,25
-504,Food,Cookies,5,150
-701,Toys,Action Figure,20,40
+106,fruit,Pine Apple, 50, 40
+107,fruit,Water Melon,60,50
+205,tool,Pipeline,20,100
+206,tool,Ink Pen,70,20
+310,other,Lamp,80,20
+311,other,Glass Cup, 50, 30
+401,electronics,Laptop,999,20
+402,electronics,Smartphone,699,30
+403,electronics,Headphones,50,80
+501,clothing,T-shirt,15,100
+502,food,Pizza,10,200
+503,clothing,Jeans,40,60
+504,food,Cookies,5,150
+601,books,Novel,20,50
+602,books,Textbook,80,25
+701,toys,Action Figure,20,40
+702,toys,Wibu Toy,20,40

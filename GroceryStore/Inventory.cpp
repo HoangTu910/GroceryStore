@@ -77,6 +77,7 @@ void Inventory::importProduct(Inventory& inv)
 		inv.inventory.push_back(Product(name, category, price, id, quantity));
 	}
 	global.hideCursor(true);
+	global.notiBox("Import Succesful !");
 	return global.generateMenu();
 }
 

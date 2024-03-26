@@ -197,7 +197,7 @@ string Global::getTextElementBox(string text)
 	global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
 	cout << menuLabel;
 	int left = leftCenter(width);
-	int leftBox = global.leftCenterBox(width, text.length() + 2);
+	int leftBox = global.leftCenterBox(width, text.length() + 7);
 	global.drawRectangle(left, top, width, height);
 	global.gotoXY(leftBox, top + 2);
 	cout << text << ": ";
@@ -471,7 +471,7 @@ void Global::generateLogin()
 		}
 
 	} while (username != employee.getEmployeeUserName() || password != employee.getEmployeePassword());
-	this->generateMenu();
+	return this->generateMenu();
 }
 
 
