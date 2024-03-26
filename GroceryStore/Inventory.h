@@ -6,6 +6,8 @@
 #include<vector>
 #include<string>
 #include<cstring>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -17,10 +19,12 @@ public:
 	Inventory();
 	void initProduct();
 	void checkInventory();
-	void importProduct(Inventory& inv);
+	void importProduct(Inventory &inv);
+	void importProductFile(Inventory& inv);
 	int getInventoryCapacity();
 	vector<Product> getInventory();
 	Product& getProduct(size_t index);
 	vector<Product> inventory;
+	vector<Product> readCSV(const string& filename);
 };
 

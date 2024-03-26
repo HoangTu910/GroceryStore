@@ -127,6 +127,7 @@ void Global::notiBox(string text)
 	system("cls");
 	setColor(7);
 	Global global;
+	global.hideCursor(true);
 	int width = text.length() + 26 + 20;
 	int height = 10;
 	int top = 7;
@@ -180,6 +181,28 @@ int Global::getNumberElementBox(string text)
 		cin >> num;
 	}
 	return num;
+}
+
+string Global::getTextElementBox(string text)
+{
+	string file;
+	system("cls");
+	setColor(7);
+	Global global;
+	global.hideCursor(false);
+	int width = text.length() + 25;
+	int height = 5;
+	int top = 7;
+	string menuLabel = "[NOTIFICATION]";
+	global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+	cout << menuLabel;
+	int left = leftCenter(width);
+	int leftBox = global.leftCenterBox(width, text.length() + 2);
+	global.drawRectangle(left, top, width, height);
+	global.gotoXY(leftBox, top + 2);
+	cout << text << ": ";
+	cin >> file;
+	return file;
 }
 
 
@@ -244,7 +267,7 @@ void Global::generateMenu()
 			case 2: this->option = "customer";  option.customerMenu(customer); break;
 			case 3: this->option = "import";  option.importMenu(); break;
 			case 4: this->option = "store";  option.storeMenu(); break;
-			case 5: cout << "Exit "; generateLogin(); break;
+			case 5: cout << "Exit "; return generateLogin(); break;
 			}
 		}
 

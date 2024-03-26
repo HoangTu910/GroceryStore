@@ -77,7 +77,49 @@ void Inventory::importProduct(Inventory& inv)
 		inv.inventory.push_back(Product(name, category, price, id, quantity));
 	}
 	global.hideCursor(true);
-	global.generateMenu();
+	return global.generateMenu();
+}
+
+
+void Inventory::importProductFile(Inventory& inv)
+{
+	Global global;
+	string filename = global.getTextElementBox("Import CSV File");
+	ifstream file(filename);
+
+	if (!file.is_open()) {
+		global.notiBox("Error opening file: " + filename);
+		return global.generateMenu();
+	}
+
+	string line;
+	getline(file, line);
+
+	while (getline(file, line)) {
+		stringstream ss(line);
+		string name, categorize;
+		int id, quantity;
+		float price;
+		string field;
+
+		getline(ss, field, ',');
+		id = stoi(field); 
+
+		getline(ss, categorize, ',');
+		getline(ss, name, ',');
+
+		getline(ss, field, ',');
+		price = stof(field);
+
+		getline(ss, field);
+		quantity = stoi(field);
+
+		inv.inventory.push_back(Product(name, categorize, price, id, quantity));
+	}
+	file.close();
+	global.hideCursor(true);
+	global.loadingEffect("Importing CSV File...");
+	return global.generateMenu();
 }
 
 int Inventory::getInventoryCapacity()
@@ -97,6 +139,8 @@ Product& Inventory::getProduct(size_t index)
 	}
 	throw std::out_of_range("Index out of range");
 }
+
+
 
 
 

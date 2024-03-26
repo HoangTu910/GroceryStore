@@ -53,7 +53,7 @@ void Option::UserOption::userAccountMenu()
 			case 1: this->option = "changepass"; login.configLogin();  isChosen = true; break;
 			case 2: this->option = "info"; login.showUserInfo(); isChosen = true; break;
 			case 3: this->option = "logout"; global.generateLogin(); isChosen = true; break;
-			case 4: cout << "Exit "; global.generateMenu(); isChosen = true; break;
+			case 4: cout << "Exit "; return global.generateMenu(); isChosen = true; break;
 			}
 		}
 
@@ -122,7 +122,7 @@ void Option::StoreOption::storeMenu()
 			case 1: this->option = "shopping"; login.configLogin();  isChosen = true; break;
 			case 2: this->option = "checkinven"; store.checkInventory(inv.inventory); isChosen = true; break;
 			case 3: this->option = "arrange"; store.arrangeProduct(inv.inventory); isChosen = true; break;
-			case 4: this->option = "exit"; global.generateMenu(); isChosen = true; break;
+			case 4: this->option = "exit"; return global.generateMenu(); isChosen = true; break;
 			}
 		
 		}
@@ -148,11 +148,11 @@ void Option::CustomerOption::customerMenu(Customer& customerReference)
 	switch (option) {
 	case 1: 
 		system("cls");
-		customerReference.showCustomerList(); global.generateMenu(); break;
+		return customerReference.showCustomerList(); return global.generateMenu(); break;
 	case 2:
 		cout << "Customer Option 2"; break;
 	case 3:
-		global.generateMenu(); break;
+		return global.generateMenu(); break;
 	}
 }
 
@@ -163,9 +163,9 @@ void Option::ImportOption::importMenu()
 	int option = global.drawMenu(10, 2, "GROCERY STORE", "IMPORT PRODUCT", "1. Import by Files", "2. Import by User");
 	switch (option) {
 	case 1:
-		inve.importProduct(inv); break;
+		return inve.importProductFile(inv); break;
 	case 2:
-		inve.importProduct(inv); break;
+		return inve.importProduct(inv); break;
 	}
 }
 
