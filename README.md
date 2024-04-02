@@ -1,1 +1,1 @@
-Loading...10%
+Loading...50%
