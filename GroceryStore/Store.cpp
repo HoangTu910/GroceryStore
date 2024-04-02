@@ -5,6 +5,7 @@
 #include <cmath>
 
 using namespace std;
+int customerIndex = -1;
 
 void Store::checkInventory(vector<Product>& inv)
 {
@@ -275,7 +276,7 @@ vector<Product> Store::getProductOnSell() {
 }
 
 
-void Store::goShopping(vector<Product>& productOnSell)
+void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory)
 {
     Global global;
     system("cls");
@@ -359,7 +360,7 @@ void Store::goShopping(vector<Product>& productOnSell)
 
             if (key == '\r') {
                 if (counter == pageCounter[page] + 1) {
-                    this->editCustomerCart(customerCart);
+                    this->editCustomerCart(productOnSell, customerCart, transactionHistory);
                 }
                 else if (counter == pageCounter[page] + 2) {
                     cout << page; page = (page + 1) % (productOnSell.size() / 10 + 1);
@@ -373,12 +374,12 @@ void Store::goShopping(vector<Product>& productOnSell)
                     bool check = findInVector(isChosen, counter + page * 10 - 1);
                     if (check) {
                         removeInVector(isChosen, counter + page * 10 - 1);
-                        this->removeProductInVector(this->productOnSell, productOnSell[counter + page * 10 - 1]);
+                        this->removeProductInVector(customerCart, productOnSell[counter + page * 10 - 1]);
                         checkBox = ' ';
                     }
                     else {
                         isChosen.push_back(counter + page * 10 - 1);
-                        this->customerCart.push_back(productOnSell[counter + page * 10 - 1]);
+                        customerCart.push_back(productOnSell[counter + page * 10 - 1]);
                         checkBox = char(219);
                     }
                     global.gotoXY(width + lefts - 2, top + 5 + counter - 1 + 1);
@@ -469,7 +470,7 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
                     global.gotoXY(89, top + 5 + i % 10 + 1);
                     cin >> sellQuantity;
                     productOnSell[i].setSellPrice(sellPrice);
-                    productOnSell[i].setSellQuantity(sellQuantity);
+                    productOnSell[i].setSellQuantity(productOnSell[i].getSellQuantity() + sellQuantity);
                     cout << productOnSell[i].getSellPrice();
                     int productQuantity = inv[index].getProductQuantity();
                     int productLeft = productQuantity - sellQuantity;
@@ -512,7 +513,7 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
     }
 }
 
-void Store::editCustomerCart(vector<Product>& productOnSell)
+void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&customerCart, vector<vector<Product>> &transactionHistory)
 {
     Global global;
     system("cls");
@@ -534,7 +535,8 @@ void Store::editCustomerCart(vector<Product>& productOnSell)
     int invenSize = productOnSell.size();
     vector<int> isChosen;
     char checkBox;
-
+    customerIndex++;
+    cout << customerIndex;
     for (int i = 0; i < 3; i++) {
         initMenuColor.push_back(7);
     }
@@ -585,7 +587,9 @@ void Store::editCustomerCart(vector<Product>& productOnSell)
                     int sellQuantity;
                     global.gotoXY(89, top + 5 + i % 10 + 1);
                     cin >> sellQuantity;
-                    this->customerCart[i].setSellQuantity(sellQuantity);
+                    customerCart[i].setSellQuantity(sellQuantity);
+                    transactionHistory.push_back(vector<Product>());
+                    transactionHistory[customerIndex].push_back(customerCart[i]);
                     int productQuantity = productOnSell[index].getSellQuantity();
                     int productLeft = productQuantity - sellQuantity;
                     if (productLeft < 0) {
@@ -611,7 +615,7 @@ void Store::editCustomerCart(vector<Product>& productOnSell)
 
             if (key == '\r') {
                 switch (counter) {
-                case 1: system("cls"); global.loadingEffect("Uploading..."); return option.storeMenu(); break;
+                case 1: system("cls"); global.loadingEffect("Uploading..."); customerCart.clear(); return option.storeMenu();  break;
                 case 2: cout << page; page = (page + 1) % (customerCart.size() + 1); counter = 1; system("cls"); once = true; break;
                 case 3: return option.storeMenu(); break;
                 default: break;

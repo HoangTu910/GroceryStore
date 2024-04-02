@@ -14,9 +14,9 @@ public:
 	void removeInVector(vector<int> &vector, int number);
 	int getProductElement(vector<Product> vector, Product product);
 	void editProductOnSell(vector<Product>& inv, vector<Product>& productOnSell);
-	void editCustomerCart(vector<Product>& productOnSell);
+	void editCustomerCart(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory);
 	void removeProductInVector(vector<Product>& vector, Product product);
-	void goShopping(vector<Product>& productOnSell);
+	void goShopping(vector<Product>& productOnSell, vector<Product> &customerCart, vector<vector<Product>>& transactionHistory);
 	void showSingleSellProduct(Product& product);
 	vector<Product> getProductOnSell();
 	vector<Product> productOnSell;

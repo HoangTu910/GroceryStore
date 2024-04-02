@@ -1,6 +1,7 @@
 #pragma once
 #include "Employee.h"
 #include "Global.h"
+#include "Product.h"
 #include<iostream>
 #include<windows.h>
 #include<conio.h>
@@ -17,6 +18,7 @@ private:
 
 public:
 	vector<Customer> customerDatabase;
+	vector<vector<Product>> transactionHistory;
 	void setCustomerID(int id);
 	void setPhoneNumber(string phonenum);
 	void setBonusPoint(int point);
