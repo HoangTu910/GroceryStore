@@ -1,6 +1,7 @@
 #include "Option.h"
 
 Inventory inv;
+Store prod;
 
 void Option::UserOption::userAccountMenu()
 {
@@ -119,12 +120,11 @@ void Option::StoreOption::storeMenu()
 
 		if (this->key == '\r') {
 			switch (this->counter) {
-			case 1: this->option = "shopping"; login.configLogin();  isChosen = true; break;
+			case 1: this->option = "shopping"; store.goShopping(prod.productOnSell);  isChosen = true; break;
 			case 2: this->option = "checkinven"; store.checkInventory(inv.inventory); isChosen = true; break;
-			case 3: this->option = "arrange"; store.arrangeProduct(inv.inventory); isChosen = true; break;
+			case 3: this->option = "arrange"; store.arrangeProduct(inv.inventory, prod.productOnSell); isChosen = true; break;
 			case 4: this->option = "exit"; return global.generateMenu(); isChosen = true; break;
 			}
-		
 		}
 
 		this->initMenuColor[0] = 7;

@@ -146,7 +146,6 @@ void Global::notiBox(string text)
 			}
 		}
 	} while (true);
-
 }
 
 int Global::getNumberElementBox(string text)

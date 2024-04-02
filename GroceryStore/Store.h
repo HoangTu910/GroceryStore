@@ -4,19 +4,23 @@
 #pragma once
 class Store
 {
-private:
-	vector<Product> productOnSell;
+
+	
 public:
 	void showSingleProduct(Product& product);
 	void checkInventory(vector<Product>& inv);
-	void arrangeProduct(vector<Product>& inv);
+	void arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell);
 	bool findInVector(vector<int> &vector, int number);
 	void removeInVector(vector<int> &vector, int number);
 	int getProductElement(vector<Product> vector, Product product);
-	void editProductOnSell(vector<Product>& inv);
+	void editProductOnSell(vector<Product>& inv, vector<Product>& productOnSell);
+	void editCustomerCart(vector<Product>& productOnSell);
 	void removeProductInVector(vector<Product>& vector, Product product);
-	void goShopping();
+	void goShopping(vector<Product>& productOnSell);
 	void showSingleSellProduct(Product& product);
 	vector<Product> getProductOnSell();
+	vector<Product> productOnSell;
+	vector<Product> customerCart;
 };
+
 
