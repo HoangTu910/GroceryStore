@@ -6,6 +6,8 @@
 
 using namespace std;
 int customerIndex = -1;
+int totalProductOnSell = 0;
+vector<Product> virtualProductOnSell;
 
 void Store::checkInventory(vector<Product>& inv)
 {
@@ -115,8 +117,9 @@ void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
     int geti = 0;
     int counter = 1;
     char key;
+    int counterPush = 0;
     string storeLabels = "STORE";
-    string menuLabel = "ARRANGE PRODUCT";
+    string menuLabel = "ARRANGE PRODUCT - MAXIMUM 10 PRODUCTS AT A TIME";
     int invenSize = inv.size();
     int tempSize = invenSize;
     vector<int> isChosen;
@@ -140,10 +143,19 @@ void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
         }
         else {
             global.setColor(7);
-            global.gotoXY(global.leftCenter(storeLabels.length() - 1), 3);
+            global.gotoXY(global.leftCenter(storeLabels.length() - 1), 2);
             cout << storeLabels;
-            global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+            global.gotoXY(global.leftCenter(menuLabel.length() - 1), 3);
             cout << menuLabel;
+            global.gotoXY(global.leftCenter(11 - 1), 5);
+            string push;
+            if (counterPush < 10) {
+                push = "0" + to_string(counterPush);
+            }
+            else {
+                push = to_string(counterPush);
+            }
+            cout << "PUSHING: " << push;
 
             global.drawRectangle(lefts, top, width, height);
             global.gotoXY(leftBox, top + 3);
@@ -216,23 +228,30 @@ void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
                     if (check) {
                         removeInVector(isChosen, counter + page * 10 - 1);
                         this->removeProductInVector(productOnSell, inv[counter + page * 10 - 1]);
+                        this->removeProductInVector(virtualProductOnSell, inv[counter + page * 10 - 1]);
                         checkBox = ' ';
+                        counterPush--;
                     }
                     else {
-                        isChosen.push_back(counter + page * 10 - 1);
-                        productOnSell.push_back(inv[counter + page * 10 - 1]);
-                        checkBox = char(219);
+                        if (counterPush < 10) {
+                            isChosen.push_back(counter + page * 10 - 1);
+                            productOnSell.push_back(inv[counter + page * 10 - 1]);
+                            virtualProductOnSell.push_back(inv[counter + page * 10 - 1]);
+                            checkBox = char(219);
+                            counterPush++;
+                        }
                     }
-                    global.gotoXY(width + lefts - 2, top + 5 + counter - 1 + 1);
-                    cout << checkBox;
+                    if (counterPush <= 10) {
+                        global.gotoXY(width + lefts - 2, top + 5 + counter - 1 + 1);
+                        cout << checkBox;
+                    }
                 }
             }
 
             for (int i = 0; i < inv.size() + 3; i++) {
-
                 initMenuColor[i] = 7;
             }
-            initMenuColor[counter - 1] = 3; //ha
+            initMenuColor[counter - 1] = 3; 
         }
     }
 }
@@ -363,7 +382,7 @@ void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customer
                     this->editCustomerCart(productOnSell, customerCart, transactionHistory);
                 }
                 else if (counter == pageCounter[page] + 2) {
-                    cout << page; page = (page + 1) % (productOnSell.size() / 10 + 1);
+                    page = (page + 1) % (productOnSell.size() / 10 + 1);
                     system("cls");
                     counter = 1;
                 }
@@ -388,7 +407,6 @@ void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customer
             }
 
             for (int i = 0; i < productOnSell.size() + 3; i++) {
-
                 initMenuColor[i] = 7;
             }
             initMenuColor[counter - 1] = 3; 
@@ -442,9 +460,9 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
             cout << setw(16) << left << "  Price";
             cout << "  Quantity" << endl;
 
-            for (int i = page * 10; (i < productOnSell.size()) && (i < page * 10 + 10); i++) {
+            for (int i = page * 10; (i < virtualProductOnSell.size()) && (i < page * 10 + 10); i++) {
                 global.gotoXY(leftBox, top + 5 + i % 10 + 1);
-                showSingleSellProduct(productOnSell[i]);
+                showSingleSellProduct(virtualProductOnSell[i]);
                 geti = i % 10;
             }
 
@@ -453,25 +471,26 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
             cout << "[UPLOAD TO STORE]";
             global.gotoXY(global.leftCenter(9), top + 5 + geti + 5);
             global.setColor(initMenuColor[1]);
-            cout << ">> " << page + 1 << "/" << ceil(float(productOnSell.size() / 10.0)) << " <<";
+            cout << ">> " << page + 1 << "/" << ceil(float(virtualProductOnSell.size() / 10.0)) << " <<";
             global.gotoXY(global.leftCenter(4), top + 5 + geti + 7);
             global.setColor(initMenuColor[2]);
             cout << "Exit";
 
             while (once) {
-                for (int i = page * 10; (i < productOnSell.size()) && (i < page * 10 + 10); i++) {
+                for (int i = page * 10 + (totalProductOnSell); (i < productOnSell.size()) && (i < page * 10 + 10 + totalProductOnSell); i++) {
                     global.hideCursor(false);
                     vector<Product> maskVector(inv);
                     int index = getProductElement(maskVector, productOnSell[i]);
                     float sellPrice;
                     int sellQuantity;
-                    global.gotoXY(73, top + 5 + i % 10 + 1);
+                    global.gotoXY(73, top + 5 + (i+(10-totalProductOnSell)) % 10 + 1);
                     cin >> sellPrice;
-                    global.gotoXY(89, top + 5 + i % 10 + 1);
+                    global.gotoXY(89, top + 5 + (i+(10-totalProductOnSell)) % 10 + 1);
                     cin >> sellQuantity;
                     productOnSell[i].setSellPrice(sellPrice);
                     productOnSell[i].setSellQuantity(productOnSell[i].getSellQuantity() + sellQuantity);
-                    cout << productOnSell[i].getSellPrice();
+                    cout << "i: " << page * 10 + (totalProductOnSell) << endl;
+                    cout << "Shop: " << productOnSell.size() << endl;
                     int productQuantity = inv[index].getProductQuantity();
                     int productLeft = productQuantity - sellQuantity;
                     if (productLeft < 0) {
@@ -485,6 +504,8 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
                 once = false;
             }
 
+            totalProductOnSell = productOnSell.size();
+           
             global.hideCursor(true);
             key = _getch();
             if (key == 'w' && (counter >= 2 && counter <= 3)) {
@@ -497,8 +518,8 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
 
             if (key == '\r') {
                 switch (counter) {
-                case 1: system("cls"); global.loadingEffect("Uploading..."); return option.storeMenu(); break;
-                case 2: cout << page; page = (page + 1) % (productOnSell.size() + 1); counter = 1; system("cls"); once = true; break;
+                case 1: system("cls"); global.loadingEffect("Uploading..."); virtualProductOnSell.clear(); return option.storeMenu(); break;
+                case 2: cout << page; page = (page + 1) % (virtualProductOnSell.size() + 1); counter = 1; system("cls"); once = true; break;
                 case 3: return option.storeMenu(); break;
                 default: break;
                 }
@@ -614,8 +635,20 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
             }
 
             if (key == '\r') {
+                string confirm = "";
                 switch (counter) {
-                case 1: system("cls"); global.loadingEffect("Uploading..."); customerCart.clear(); return option.storeMenu();  break;
+                case 1: 
+                    system("cls");  
+                    confirm = global.getTextElementBox("Comfirm to buy ? (y/n): ");
+                    if (confirm == "y") {
+                        global.loadingEffect("Processing...");
+                        customerCart.clear();
+                        return option.storeMenu();
+                    }
+                    else {
+                        break;
+                    }
+                    break;
                 case 2: cout << page; page = (page + 1) % (customerCart.size() + 1); counter = 1; system("cls"); once = true; break;
                 case 3: return option.storeMenu(); break;
                 default: break;
