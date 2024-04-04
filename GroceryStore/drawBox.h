@@ -10,5 +10,7 @@ private:
 public:
 	drawBox();
 	drawBox(int width, int heigth);
+	int getLeft();
+	int getTop();
 };
 

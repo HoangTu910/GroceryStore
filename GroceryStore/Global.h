@@ -30,6 +30,7 @@ public:
 	void loadingEffect(string text);
 	void notiBox(string text);
 	int getNumberElementBox(string text);
+	int getIndexVector(string text);
 	string getTextElementBox(string text);
 	//getter & setter
 	string getOption();

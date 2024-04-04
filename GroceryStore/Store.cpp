@@ -8,10 +8,16 @@ using namespace std;
 int customerIndex = -1;
 int totalProductOnSell = 0;
 vector<Product> virtualProductOnSell;
+vector<Product> prevProductOnSell;
+vector<Product> tempInventory;
+vector<Product> tempProductOnSell;
+vector<vector<Product>> prevTransactionHistory;
+set<int> generateSet;
 
 void Store::checkInventory(vector<Product>& inv)
 {
     system("cls");
+    //removeZeroQuantity(inv);
     vector<int> initMenuColor = { 7,7 };
     char keyPressed;
     Global global;
@@ -104,6 +110,7 @@ void Store::removeInVector(vector<int>& vector, int number) {
 
 void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
 {
+    /*removeZeroQuantity(inv);*/
     Global global;
     system("cls");
     vector<int> initMenuColor;
@@ -135,6 +142,8 @@ void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
     for (int i = 0; i < inv.size() + 3; i++) {
         initMenuColor.push_back(7);
     }
+    prevProductOnSell = productOnSell;
+    totalProductOnSell = productOnSell.size();
 
     while (true) {
         if (inv.empty()) {
@@ -289,14 +298,240 @@ int Store::getProductElement(vector<Product> vector, Product product)
 }
 
 
-
 vector<Product> Store::getProductOnSell() {
     return productOnSell;
 }
 
-
-void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory)
+void Store::removeZeroQuantity(vector<Product>& vector)
 {
+    for (int i = 0; i < vector.size(); i++) {
+        if (vector[i].getProductQuantity() == 0) {
+            vector.erase(vector.begin() + i);
+        }
+    }
+}
+
+void Store::removeZeroSellQuantity(vector<Product>& vector)
+{
+    for (int i = 0; i < vector.size(); i++) {
+        if (vector[i].getSellQuantity() == 0) {
+            vector.erase(vector.begin() + i);
+        }
+    }
+}
+
+
+void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
+{
+    Global global;
+    int width = 51;
+    int height = 20;
+    int top = 4;
+    int lefts = global.leftCenter(width);
+    int leftBox = global.leftCenterBox(width, 47);
+    string displayLabel = "MY GROCERY STORE";
+    int center = global.leftCenter(displayLabel.length() - 1);
+    global.drawRectangle(lefts, top, width, height);
+
+    int alignLeft = lefts + 2;
+    int alignTop = top + 2;
+    time_t now = time(0);
+
+    struct tm localTime;
+    localtime_s(&localTime, &now);
+
+    int day = localTime.tm_mday;
+    int month = localTime.tm_mon + 1; 
+    int year = localTime.tm_year + 1900;
+
+    global.gotoXY(center, alignTop - 1);
+    cout << displayLabel;
+    global.gotoXY(alignLeft, alignTop);
+    cout << "CUSTOMER BILL";
+    global.gotoXY(alignLeft, alignTop+1);
+    cout << "UID: ";
+    global.gotoXY(alignLeft, alignTop + 2);
+    cout << "Name: ";
+    global.gotoXY(alignLeft, alignTop + 3);
+    cout << "Phone number: ";
+    global.gotoXY(alignLeft, alignTop+4);
+    cout << "DATE: " << day << "/" << month << "/" << year;
+    global.gotoXY(alignLeft, alignTop + 6);
+    cout << "*************************************************";
+    global.gotoXY(leftBox, alignTop + 7);
+    cout << setw(21) << left << "Name Product";
+    cout << setw(17) << left << "Quantity";
+    cout <<"Total Price";
+    while (true) {
+
+    }
+        
+}
+
+
+void Store::addCustomer(vector<Customer>& customerDatabase)
+{
+    Global global;
+    system("cls");
+    int option = global.drawMenu(10, 2, "GROCERY STORE", "CUSTOMER SERVICE", "1. New Customer", "2. Available Customer");
+    switch (option) {
+        case 1: return newCustomer(customerDatabase); break;
+        case 2: return availableCustomer(customerDatabase); break;
+    }
+}
+
+void Store::newCustomer(vector<Customer>& customerDatabase)
+{
+    system("cls");
+    Customer customer;
+    Global global;
+    global.hideCursor(false);
+    int width = 40;
+    int heigth = 12;
+    int uid = generateCustomerID(generateSet);
+    int bonus = 0;
+    string storeLabel = "GROCERY STORE MANAGMENT";
+    string Label = "ADD NEW CUSTOMER";
+    string phoneNum;
+    string name;
+    string gender;
+    char key;
+    global.gotoXY(global.leftCenter(storeLabel.length()-1), 3);
+    cout << storeLabel;
+    global.gotoXY(global.leftCenter(Label.length()-1), 5);
+    cout << Label;
+    drawBox drawBox(width, heigth);
+
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 2);
+    cout << "UID: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 4);
+    cout << "Bonus Point: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 6);
+    cout << "Name: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 8);
+    cout << "Phone Number: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 10);
+    cout << "Gender: ";
+
+    global.gotoXY(drawBox.getLeft() + 10, drawBox.getTop() + 2);
+    cout << uid;
+    global.gotoXY(drawBox.getLeft() + 18, drawBox.getTop() + 4);
+    cout << customer.getBonusPoint();
+    global.gotoXY(drawBox.getLeft() + 11, drawBox.getTop() + 6);
+    cin >> name;
+    global.gotoXY(drawBox.getLeft() + 19, drawBox.getTop() + 8);
+    cin >> phoneNum;
+    global.gotoXY(drawBox.getLeft() + 14, drawBox.getTop() + 10);
+    cin >> gender;
+
+    global.gotoXY(global.leftCenter(22), drawBox.getTop() + 12);
+    cout << "Press 'enter' to Confirm !";
+    customer.setCustomerID(uid);
+    customer.setCustomerName(name);
+    customer.setPhoneNumber(phoneNum);
+    customer.setCustomerGender(gender);
+
+    customerDatabase.push_back(customer);
+    global.hideCursor(true);
+
+    key = _getch();
+    while (key != '\r') {
+        key = _getch();
+    }
+    global.loadingEffect("Order processing is underway...");
+    global.notiBox("Succesfully Purchased - Thank you");
+    return global.generateMenu();
+}
+
+void Store::availableCustomer(vector<Customer>& customerDatabase)
+{
+    system("cls");
+    Global global;
+    Option option;
+    global.hideCursor(false);
+    int width = 40;
+    int heigth = 12;
+    int id = global.getIndexVector("Customer ID");
+    string storeLabel = "GROCERY STORE MANAGMENT";
+    string Label = "ADD NEW CUSTOMER";
+    char key;
+    global.gotoXY(global.leftCenter(storeLabel.length() - 1), 3);  
+    cout << storeLabel; 
+    global.gotoXY(global.leftCenter(Label.length() - 1), 5); 
+    cout << Label;  
+    drawBox drawBox(width, heigth); 
+    int index = getCustomerElement(id, customerDatabase);
+
+
+    if (index == -1) {
+        global.notiBox("No customer available");
+        return option.storeMenu();
+    }
+    else {
+        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 2);
+        cout << "UID: ";
+        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 4);
+        cout << "Bonus Point: ";
+        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 6);
+        cout << "Name: ";
+        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 8);
+        cout << "Phone Number: ";
+        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 10);
+        cout << "Gender: ";
+
+        global.gotoXY(drawBox.getLeft() + 10, drawBox.getTop() + 2);
+        cout << customerDatabase[index].getCustomerID();
+        global.gotoXY(drawBox.getLeft() + 18, drawBox.getTop() + 4);
+        cout << customerDatabase[index].getBonusPoint();
+        global.gotoXY(drawBox.getLeft() + 11, drawBox.getTop() + 6);
+        cout << customerDatabase[index].getCustomerName();
+        global.gotoXY(drawBox.getLeft() + 19, drawBox.getTop() + 8);
+        cout << customerDatabase[index].getCustomerPhone();
+        global.gotoXY(drawBox.getLeft() + 14, drawBox.getTop() + 10);
+        cout << customerDatabase[index].getCustomerGender();
+
+        global.gotoXY(global.leftCenter(22), drawBox.getTop() + 12);
+        cout << "Press 'enter' to Confirm !";
+
+        key = _getch();
+        while (key != '\r') {
+            key = _getch();
+        }
+        global.loadingEffect("Order processing is underway...");
+        global.notiBox("Succesfully Purchased - Thank you");
+        return global.generateMenu();
+    }
+    
+
+}
+
+int Store::generateCustomerID(set<int>& generateSet)
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> distribution(1000, 9999);
+    int randomNumber = distribution(gen);
+    while (generateSet.find(randomNumber) != generateSet.end()) {
+        randomNumber = distribution(gen);
+    }
+    generateSet.insert(randomNumber);
+    return randomNumber;
+}
+
+int Store::getCustomerElement(int id, vector<Customer>& customerDatabase)
+{
+    for (int i = 0; i < customerDatabase.size(); i++) {
+        if (customerDatabase[i].getCustomerID() == id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase)
+{
+    //removeZeroSellQuantity(productOnSell);
     Global global;
     system("cls");
     vector<int> initMenuColor;
@@ -379,7 +614,7 @@ void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customer
 
             if (key == '\r') {
                 if (counter == pageCounter[page] + 1) {
-                    this->editCustomerCart(productOnSell, customerCart, transactionHistory);
+                    this->editCustomerCart(productOnSell, customerCart, transactionHistory, customerDatabase);
                 }
                 else if (counter == pageCounter[page] + 2) {
                     page = (page + 1) % (productOnSell.size() / 10 + 1);
@@ -436,6 +671,7 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
     int invenSize = inv.size();
     vector<int> isChosen;
     char checkBox;
+    tempInventory = inv;
 
     for (int i = 0; i < 3; i++) {
         initMenuColor.push_back(7);
@@ -503,7 +739,7 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
                 }
                 once = false;
             }
-
+            removeZeroQuantity(inv);
             totalProductOnSell = productOnSell.size();
            
             global.hideCursor(true);
@@ -517,8 +753,27 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
             }
 
             if (key == '\r') {
+                string confirm = "";
                 switch (counter) {
-                case 1: system("cls"); global.loadingEffect("Uploading..."); virtualProductOnSell.clear(); return option.storeMenu(); break;
+                case 1: 
+                    system("cls"); 
+                    confirm = global.getTextElementBox("Confirm to Push? (y/n)");
+                    if (confirm == "y") {
+                        global.hideCursor(true);
+                        global.loadingEffect("Uploading...");
+                        virtualProductOnSell.clear();
+                        return option.storeMenu();
+                    }
+                    else {
+                        system("cls");
+                        global.hideCursor(true);
+                        productOnSell = prevProductOnSell;
+                        inv = tempInventory;
+                        virtualProductOnSell.clear();
+                        return option.storeMenu();
+                    }
+                     
+                    break;
                 case 2: cout << page; page = (page + 1) % (virtualProductOnSell.size() + 1); counter = 1; system("cls"); once = true; break;
                 case 3: return option.storeMenu(); break;
                 default: break;
@@ -534,7 +789,8 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
     }
 }
 
-void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&customerCart, vector<vector<Product>> &transactionHistory)
+
+void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&customerCart, vector<vector<Product>> &transactionHistory, vector<Customer>& customerDatabase)
 {
     Global global;
     system("cls");
@@ -558,6 +814,7 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
     char checkBox;
     customerIndex++;
     cout << customerIndex;
+    prevTransactionHistory = transactionHistory;
     for (int i = 0; i < 3; i++) {
         initMenuColor.push_back(7);
     }
@@ -599,8 +856,9 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
             global.gotoXY(global.leftCenter(4), top + 5 + geti + 7);
             global.setColor(initMenuColor[2]);
             cout << "Exit";
-
+            
             while (once) {
+                tempProductOnSell = productOnSell;
                 for (int i = page * 10; (i < customerCart.size()) && (i < page * 10 + 10); i++) {
                     global.hideCursor(false);
                     vector<Product> maskVector(productOnSell);
@@ -609,10 +867,11 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     global.gotoXY(89, top + 5 + i % 10 + 1);
                     cin >> sellQuantity;
                     customerCart[i].setSellQuantity(sellQuantity);
-                    transactionHistory.push_back(vector<Product>());
-                    transactionHistory[customerIndex].push_back(customerCart[i]);
+                    //Fix bug these two line of code
+                    transactionHistory.push_back(vector<Product>()); //Line 1
+                    transactionHistory[customerIndex].push_back(customerCart[i]); //Line 2
                     int productQuantity = productOnSell[index].getSellQuantity();
-                    int productLeft = productQuantity - sellQuantity;
+                    int productLeft = productQuantity - sellQuantity;   
                     if (productLeft < 0) {
                         productLeft = productQuantity;
                     }
@@ -623,7 +882,7 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                 }
                 once = false;
             }
-
+            removeZeroSellQuantity(productOnSell);
             global.hideCursor(true);
             key = _getch();
             if (key == 'w' && (counter >= 2 && counter <= 3)) {
@@ -639,14 +898,19 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                 switch (counter) {
                 case 1: 
                     system("cls");  
-                    confirm = global.getTextElementBox("Comfirm to buy ? (y/n): ");
+                    confirm = global.getTextElementBox("Confirm to buy ? (y/n)");
+                    global.hideCursor(true);
                     if (confirm == "y") {
-                        global.loadingEffect("Processing...");
                         customerCart.clear();
-                        return option.storeMenu();
+                        //return showBill(customerIndex, transactionHistory);
+                        return addCustomer(customerDatabase);
                     }
                     else {
-                        break;
+                        system("cls");
+                        productOnSell = tempProductOnSell;
+                        //transactionHistory = prevTransactionHistory; //bug dong nay
+                        customerCart.clear();
+                        return option.storeMenu();
                     }
                     break;
                 case 2: cout << page; page = (page + 1) % (customerCart.size() + 1); counter = 1; system("cls"); once = true; break;

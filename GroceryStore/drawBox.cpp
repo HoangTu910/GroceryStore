@@ -20,4 +20,14 @@ drawBox::drawBox(int width, int heigth)
 	global.drawRectangle(this->left, this->top, this->width, this->heigth);
 }
 
+int drawBox::getLeft()
+{
+	return this->left;
+}
+
+int drawBox::getTop()
+{
+	return this->top;
+}
+
 

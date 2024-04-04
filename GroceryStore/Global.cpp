@@ -182,6 +182,29 @@ int Global::getNumberElementBox(string text)
 	return num;
 }
 
+int Global::getIndexVector(string text)
+{
+	int num;
+	system("cls");
+	setColor(7);
+	Global global;
+	global.hideCursor(false);
+	int width = text.length() + 25;
+	int height = 5;
+	int top = 7;
+	string menuLabel = "[NOTIFICATION]";
+	global.gotoXY(global.leftCenter(menuLabel.length() - 1), 5);
+	cout << menuLabel;
+	int left = leftCenter(width);
+	int leftBox = global.leftCenterBox(width, text.length() + 2);
+	global.drawRectangle(left, top, width, height);
+	global.gotoXY(leftBox, top + 2);
+	cout << text << ": ";
+	cin >> num;
+	system("cls");
+	return num;
+}
+
 string Global::getTextElementBox(string text)
 {
 	string file;

@@ -12,7 +12,7 @@ class Customer
 private:
 	int customerID;
 	string phoneNumber;
-	int bonusPoint;
+	int bonusPoint = 0;
 	string customerName;
 	string customerGender;
 

@@ -122,7 +122,7 @@ void Option::StoreOption::storeMenu()
 
 		if (this->key == '\r') {
 			switch (this->counter) {
-			case 1: this->option = "shopping"; store.goShopping(prod.productOnSell, cart.customerCart, customer.transactionHistory);  isChosen = true; break;
+			case 1: this->option = "shopping"; store.goShopping(prod.productOnSell, cart.customerCart, customer.transactionHistory, customer.customerDatabase);  isChosen = true; break;
 			case 2: this->option = "checkinven"; store.checkInventory(inv.inventory); isChosen = true; break;
 			case 3: this->option = "arrange"; store.arrangeProduct(inv.inventory, prod.productOnSell); isChosen = true; break;
 			case 4: this->option = "exit"; return global.generateMenu(); isChosen = true; break;
@@ -146,11 +146,12 @@ void Option::StoreOption::storeMenu()
 void Option::CustomerOption::customerMenu(Customer& customerReference)
 {
 	Global global;
-	int option = global.drawMenu(10, 2, "Grocery Store Management", "Manage Customer", "1. Show Customers Infomation", "2. Config Customers Info");
+	Store store;
+	int option = global.drawMenu(10, 3, "Grocery Store Management", "Manage Customer", "1. Show Customers Infomation", "2. Config Customers Info", "3. Transaction History");
 	switch (option) {
 	case 1: 
 		system("cls");
-		return customerReference.showCustomerList(); return global.generateMenu(); break;
+		return customerReference.showCustomerList(); break;
 	case 2:
 		cout << "Customer Option 2"; break;
 	case 3:
