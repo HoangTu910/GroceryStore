@@ -286,7 +286,7 @@ void Global::generateMenu()
 		if (this->key == '\r') {
 			switch (this->counter) {
 			case 1: this->option = "user"; option.userAccountMenu(); break;
-			case 2: this->option = "customer";  option.customerMenu(customer); break;
+			case 2: this->option = "customer";  option.customerMenu(); break;
 			case 3: this->option = "import";  option.importMenu(); break;
 			case 4: this->option = "store";  option.storeMenu(); break;
 			case 5: cout << "Exit "; return generateLogin(); break;

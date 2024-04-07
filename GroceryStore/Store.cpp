@@ -565,7 +565,7 @@ void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customer
 
     while (true) {
         if (productOnSell.empty()) {
-            global.notiBox("Nothing to push.");
+            global.notiBox("Nothing to on shop.");
             option.storeMenu();
         }
         else {
@@ -868,8 +868,8 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     cin >> sellQuantity;
                     customerCart[i].setSellQuantity(sellQuantity);
                     //Fix bug these two line of code
-                    transactionHistory.push_back(vector<Product>()); //Line 1
-                    transactionHistory[customerIndex].push_back(customerCart[i]); //Line 2
+                    //transactionHistory.push_back(vector<Product>()); //Line 1
+                    //transactionHistory[customerIndex].push_back(customerCart[i]); //Line 2
                     int productQuantity = productOnSell[index].getSellQuantity();
                     int productLeft = productQuantity - sellQuantity;   
                     if (productLeft < 0) {

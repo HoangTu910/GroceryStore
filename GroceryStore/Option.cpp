@@ -143,7 +143,7 @@ void Option::StoreOption::storeMenu()
 	}
 }
 
-void Option::CustomerOption::customerMenu(Customer& customerReference)
+void Option::CustomerOption::customerMenu()
 {
 	Global global;
 	Store store;
@@ -151,7 +151,7 @@ void Option::CustomerOption::customerMenu(Customer& customerReference)
 	switch (option) {
 	case 1: 
 		system("cls");
-		return customerReference.showCustomerList(); break;
+		return customer.showCustomerList(customer.customerDatabase); break;
 	case 2:
 		cout << "Customer Option 2"; break;
 	case 3:

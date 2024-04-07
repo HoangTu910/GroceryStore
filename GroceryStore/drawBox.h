@@ -12,5 +12,7 @@ public:
 	drawBox(int width, int heigth);
 	int getLeft();
 	int getTop();
+	int getWidth();
+	int getHeigth();
 };
 

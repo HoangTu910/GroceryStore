@@ -30,4 +30,10 @@ int drawBox::getTop()
 	return this->top;
 }
 
+int drawBox::getWidth()
+{
+	return this->width;
+}
+
+
 

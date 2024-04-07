@@ -41,7 +41,7 @@ public:
 	//Customer Option Class
 	class CustomerOption : public initMenu {
 	public:
-		void customerMenu(Customer& customerReference);
+		void customerMenu();
 	};
 
 
@@ -61,9 +61,9 @@ public:
 		store.storeMenu();
 	}
 
-	void customerMenu(Customer& customerReference) {
+	void customerMenu() {
 		CustomerOption customer;
-		customer.customerMenu(customerReference);
+		customer.customerMenu();
 	}
 
 	void importMenu() {

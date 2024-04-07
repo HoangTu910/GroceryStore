@@ -32,6 +32,6 @@ public:
 	string getCustomerGender();
 
 	//Application Method
-	void showCustomerList();
+	void showCustomerList(vector<Customer> &customerDatabase);
 };
 
