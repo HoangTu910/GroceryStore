@@ -227,6 +227,11 @@ string Global::getTextElementBox(string text)
 	return file;
 }
 
+void Global::removeCache()
+{
+	cout << "                    ";
+}
+
 
 void Global::generateMenu()
 {

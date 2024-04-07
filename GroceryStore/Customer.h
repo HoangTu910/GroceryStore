@@ -30,8 +30,12 @@ public:
 	int getBonusPoint();
 	string getCustomerName();
 	string getCustomerGender();
-
+	
 	//Application Method
 	void showCustomerList(vector<Customer> &customerDatabase);
+	void showCustomerDetail(int index, vector<Customer>& customerDatabase);
+	void showSingleCustomer(Customer customerDatabase);
+	void removeCustomer(int index, vector<Customer>& customerDatabase);
+	void changeCustomerInfo(int index, vector<Customer>& customerDatabase);
 };
 

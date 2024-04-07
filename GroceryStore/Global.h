@@ -32,6 +32,7 @@ public:
 	int getNumberElementBox(string text);
 	int getIndexVector(string text);
 	string getTextElementBox(string text);
+	void removeCache();
 	//getter & setter
 	string getOption();
 	void setOption(string option);
