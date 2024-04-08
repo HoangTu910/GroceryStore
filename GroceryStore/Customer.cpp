@@ -163,15 +163,99 @@ void Customer::changeCustomerInfo(int index, vector<Customer>& customerDatabase)
 	}
 }
 
+int counterPrep = 0;
 void Customer::showTransactionHistory(vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase, vector<int>& idContainer)
 {
 	system("cls");
-	for (int i = 0; i < transactionHistory.size(); i++) {
-		cout << "ID: " << idContainer[i] << endl;
-		for (int j = 0; j < transactionHistory[i].size(); j++) {
-			cout << "Name: " << transactionHistory[i][j].getProductName() << endl;
-			cout << "Quantity: " << transactionHistory[i][j].getSellQuantity() << endl;
-			cout << "Price: " << transactionHistory[i][j].getSellPrice() * transactionHistory[i][j].getSellQuantity() << endl;
+	vector<int> initMenuColor = { 7,7 };
+	Global global;
+	Option option;
+	string storeLabels = "Grocery Store";
+	string listLabel = "Transaction History";
+	int geti = 0;
+	int counter = 1;
+	int page = 0;
+	int width = 60;
+	int height = 20;
+	int top = 7;
+	char key;
+	int lefts = global.leftCenter(width);
+	int leftBox = global.leftCenterBox(width, 45);
+	int invenSize = idContainer.size();
+	int tempSize = invenSize;
+	char checkBox;
+	bool once = true;
+	int index = 0;
+	vector<int> pageCounter;
+	while (true) {
+		if (idContainer.empty()) {
+			global.notiBox("No Customer Data.");
+			return option.storeMenu();
+		}
+		else {
+			global.setColor(7);
+			global.gotoXY(global.leftCenter(storeLabels.length() - 1), 3);
+			cout << storeLabels;
+			global.gotoXY(global.leftCenter(listLabel.length() - 1), 5);
+			cout << listLabel;
+			global.drawRectangle(lefts, top, width, height);
+
+			global.gotoXY(global.leftCenterBox(width, 28), top + 1);
+			cout << "ID Customer Transaction: ";
+			cout << idContainer[page];
+			global.gotoXY(leftBox, top + 3);
+			cout << setw(18) << left << "  Product Name";
+			cout << setw(16) << left << "  Quantity";
+			cout << "  Total Price" << endl;
+
+			for (int j = 0; j < transactionHistory[page].size(); j++) {
+				global.gotoXY(leftBox, top + 4 + j % 10 + 1);
+				cout << "  " << setw(16) << left << transactionHistory[page][j].getProductName();
+				cout << "  " << setw(16) << left << transactionHistory[page][j].getSellQuantity();
+				cout << transactionHistory[page][j].getSellPrice() * transactionHistory[page][j].getSellQuantity();
+			}
+
+			int num_elements = 0;
+			for (auto it = transactionHistory.begin(); it != transactionHistory.end(); ++it) {
+				for (auto jt = it->begin(); jt != it->end(); ++jt) {
+					num_elements++;
+				}
+			}
+
+			global.gotoXY(global.leftCenter(8), 24);
+			global.setColor(initMenuColor[0]);
+			cout << ">> " << page + 1 << "/" << ceil(float(num_elements / 10.0)) << " <<";
+			global.gotoXY(global.leftCenter(3), 26);
+			global.setColor(initMenuColor[1]);
+			cout << "Exit";
+			counterPrep = 0;
+			key = _getch();
+			if (key == 'w' && (counter >= 2 && counter <= 2)) {
+				counter--;
+			}
+
+			if (key == 's' && (counter >= 1 && counter <= 1)) {
+				counter++;
+			}
+
+			if (key == '\r') {
+				switch (counter) {
+				case 1: 
+					page = (page + 1);
+					if (page >= idContainer.size()) {
+						page = 0;
+					}
+					system("cls"); break;
+				case 2: option.storeMenu(); break;
+				}
+			}
+			initMenuColor[0] = 7;
+			initMenuColor[1] = 7;
+
+			switch (counter) {
+			case 1: initMenuColor[0] = 3; break;
+			case 2: initMenuColor[1] = 3; break;
+			}
 		}
 	}
 }

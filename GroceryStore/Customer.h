@@ -6,6 +6,8 @@
 #include<windows.h>
 #include<conio.h>
 #include<vector>
+#include <iomanip>
+#include <algorithm>
 
 class Customer
 {

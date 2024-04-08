@@ -728,8 +728,6 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
                     cin >> sellQuantity;
                     productOnSell[i].setSellPrice(sellPrice);
                     productOnSell[i].setSellQuantity(productOnSell[i].getSellQuantity() + sellQuantity);
-                    cout << "i: " << page * 10 + (totalProductOnSell) << endl;
-                    cout << "Shop: " << productOnSell.size() << endl;
                     int productQuantity = inv[index].getProductQuantity();
                     int productLeft = productQuantity - sellQuantity;
                     if (productLeft < 0) {
@@ -886,7 +884,7 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                 }
                 once = false;
             }
-            removeZeroSellQuantity(productOnSell);
+            
             global.hideCursor(true);
             key = _getch();
             if (key == 'w' && (counter >= 2 && counter <= 3)) {
