@@ -19,6 +19,7 @@ private:
 public:
 	vector<Customer> customerDatabase;
 	vector<vector<Product>> transactionHistory;
+	vector<int> idContainer;
 	void setCustomerID(int id);
 	void setPhoneNumber(string phonenum);
 	void setBonusPoint(int point);
@@ -37,5 +38,6 @@ public:
 	void showSingleCustomer(Customer customerDatabase);
 	void removeCustomer(int index, vector<Customer>& customerDatabase);
 	void changeCustomerInfo(int index, vector<Customer>& customerDatabase);
+	void showTransactionHistory(vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase, vector<int>& idContainer);
 };
 

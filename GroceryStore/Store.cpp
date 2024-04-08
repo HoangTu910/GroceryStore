@@ -14,6 +14,7 @@ vector<Product> tempProductOnSell;
 vector<vector<Product>> prevTransactionHistory;
 set<int> generateSet;
 
+
 void Store::checkInventory(vector<Product>& inv)
 {
     system("cls");
@@ -205,6 +206,7 @@ void Store::arrangeProduct(vector<Product>& inv, vector<Product>& productOnSell)
                 case 12: cout << page; page = (page + 1) % (inv.size() / 10 + 1); system("cls"); counter = 1; break;
                 case 13: option.storeMenu(); break;
                 default: {
+                default: {
                     bool check = findInVector(isChosen, counter + page * 10 - 1);
                     if (check) {
                         removeInVector(isChosen, counter + page * 10 - 1);
@@ -369,18 +371,18 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
 }
 
 
-void Store::addCustomer(vector<Customer>& customerDatabase)
+void Store::addCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer)
 {
     Global global;
     system("cls");
     int option = global.drawMenu(10, 2, "GROCERY STORE", "CUSTOMER SERVICE", "1. New Customer", "2. Available Customer");
     switch (option) {
-        case 1: return newCustomer(customerDatabase); break;
-        case 2: return availableCustomer(customerDatabase); break;
+        case 1: return newCustomer(customerDatabase, idContainer); break;
+        case 2: return availableCustomer(customerDatabase, idContainer); break;
     }
 }
 
-void Store::newCustomer(vector<Customer>& customerDatabase)
+void Store::newCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer)
 {
     system("cls");
     Customer customer;
@@ -432,6 +434,7 @@ void Store::newCustomer(vector<Customer>& customerDatabase)
     customer.setCustomerGender(gender);
 
     customerDatabase.push_back(customer);
+    idContainer.push_back(customer.getCustomerID());
     global.hideCursor(true);
 
     key = _getch();
@@ -443,7 +446,7 @@ void Store::newCustomer(vector<Customer>& customerDatabase)
     return global.generateMenu();
 }
 
-void Store::availableCustomer(vector<Customer>& customerDatabase)
+void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer)
 {
     system("cls");
     Global global;
@@ -492,7 +495,7 @@ void Store::availableCustomer(vector<Customer>& customerDatabase)
 
         global.gotoXY(global.leftCenter(22), drawBox.getTop() + 12);
         cout << "Press 'enter' to Confirm !";
-
+        idContainer.push_back(customerDatabase[index].getCustomerID());
         key = _getch();
         while (key != '\r') {
             key = _getch();
@@ -529,7 +532,7 @@ int Store::getCustomerElement(int id, vector<Customer>& customerDatabase)
 }
 
 
-void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase)
+void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase, vector<int>& idContainer)
 {
     //removeZeroSellQuantity(productOnSell);
     Global global;
@@ -614,7 +617,7 @@ void Store::goShopping(vector<Product>& productOnSell, vector<Product>& customer
 
             if (key == '\r') {
                 if (counter == pageCounter[page] + 1) {
-                    this->editCustomerCart(productOnSell, customerCart, transactionHistory, customerDatabase);
+                    this->editCustomerCart(productOnSell, customerCart, transactionHistory, customerDatabase, idContainer);
                 }
                 else if (counter == pageCounter[page] + 2) {
                     page = (page + 1) % (productOnSell.size() / 10 + 1);
@@ -790,7 +793,7 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
 }
 
 
-void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&customerCart, vector<vector<Product>> &transactionHistory, vector<Customer>& customerDatabase)
+void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&customerCart, vector<vector<Product>> &transactionHistory, vector<Customer>& customerDatabase, vector<int> &idContainer)
 {
     Global global;
     system("cls");
@@ -813,6 +816,7 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
     vector<int> isChosen;
     char checkBox;
     customerIndex++;
+    transactionHistory.push_back(vector<Product>()); //Line 1
     cout << customerIndex;
     prevTransactionHistory = transactionHistory;
     for (int i = 0; i < 3; i++) {
@@ -867,9 +871,9 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     global.gotoXY(89, top + 5 + i % 10 + 1);
                     cin >> sellQuantity;
                     customerCart[i].setSellQuantity(sellQuantity);
-                    //Fix bug these two line of code
-                    //transactionHistory.push_back(vector<Product>()); //Line 1
-                    //transactionHistory[customerIndex].push_back(customerCart[i]); //Line 2
+                    //Fix bug these two lines of code
+                    
+                    transactionHistory[customerIndex].push_back(customerCart[i]); //Line 2
                     int productQuantity = productOnSell[index].getSellQuantity();
                     int productLeft = productQuantity - sellQuantity;   
                     if (productLeft < 0) {
@@ -903,12 +907,12 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     if (confirm == "y") {
                         customerCart.clear();
                         //return showBill(customerIndex, transactionHistory);
-                        return addCustomer(customerDatabase);
+                        return addCustomer(customerDatabase, idContainer);
                     }
                     else {
                         system("cls");
                         productOnSell = tempProductOnSell;
-                        //transactionHistory = prevTransactionHistory; //bug dong nay
+                        transactionHistory = prevTransactionHistory; //bug dong nay
                         customerCart.clear();
                         return option.storeMenu();
                     }

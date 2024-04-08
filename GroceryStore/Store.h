@@ -17,9 +17,9 @@ public:
 	void removeInVector(vector<int> &vector, int number);
 	int getProductElement(vector<Product> vector, Product product);
 	void editProductOnSell(vector<Product>& inv, vector<Product>& productOnSell);
-	void editCustomerCart(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase);
+	void editCustomerCart(vector<Product>& productOnSell, vector<Product>& customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase, vector<int>& idContainer);
 	void removeProductInVector(vector<Product>& vector, Product product);
-	void goShopping(vector<Product>& productOnSell, vector<Product> &customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase);
+	void goShopping(vector<Product>& productOnSell, vector<Product> &customerCart, vector<vector<Product>>& transactionHistory, vector<Customer> &customerDatabase, vector<int>& idContainer);
 	void showSingleSellProduct(Product& product);
 	vector<Product> getProductOnSell();
 	vector<Product> productOnSell;
@@ -27,9 +27,9 @@ public:
 	void removeZeroQuantity(vector<Product>& vector);
 	void removeZeroSellQuantity(vector<Product>& vector);
 	void showBill(int index, vector<vector<Product>>& transactionHistory);
-	void addCustomer(vector<Customer> &customerDatabase);
-	void newCustomer(vector<Customer>& customerDatabase);
-	void availableCustomer(vector<Customer>& customerDatabase);
+	void addCustomer(vector<Customer> &customerDatabase, vector<int>& idContainer);
+	void newCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer);
+	void availableCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer);
 	int generateCustomerID(set<int> &generateSet);
 	int getCustomerElement(int id, vector<Customer>& customerDatabase);
 };

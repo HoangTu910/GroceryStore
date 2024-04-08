@@ -163,6 +163,19 @@ void Customer::changeCustomerInfo(int index, vector<Customer>& customerDatabase)
 	}
 }
 
+void Customer::showTransactionHistory(vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase, vector<int>& idContainer)
+{
+	system("cls");
+	for (int i = 0; i < transactionHistory.size(); i++) {
+		cout << "ID: " << idContainer[i] << endl;
+		for (int j = 0; j < transactionHistory[i].size(); j++) {
+			cout << "Name: " << transactionHistory[i][j].getProductName() << endl;
+			cout << "Quantity: " << transactionHistory[i][j].getSellQuantity() << endl;
+			cout << "Price: " << transactionHistory[i][j].getSellPrice() * transactionHistory[i][j].getSellQuantity() << endl;
+		}
+	}
+}
+
 void Customer::showCustomerList(vector<Customer>& customerDatabase)
 {
 	Global global;
@@ -351,6 +364,8 @@ void Customer::showSingleCustomer(Customer customerDatabase)
 	}
 	system("cls");
 }
+
+
 
 
 
