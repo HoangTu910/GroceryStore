@@ -323,9 +323,10 @@ void Store::removeZeroSellQuantity(vector<Product>& vector)
 }
 
 
-void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
+void Store::showBill(int index, vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase)
 {
     Global global;
+    char key;
     int width = 51;
     int height = 20;
     int top = 4;
@@ -334,6 +335,8 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
     string displayLabel = "MY GROCERY STORE";
     int center = global.leftCenter(displayLabel.length() - 1);
     global.drawRectangle(lefts, top, width, height);
+    int totalCost = 0;
+    int getj = 0;
 
     int alignLeft = lefts + 2;
     int alignTop = top + 2;
@@ -356,7 +359,15 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
     cout << "Name: ";
     global.gotoXY(alignLeft, alignTop + 3);
     cout << "Phone number: ";
-    global.gotoXY(alignLeft, alignTop+4);
+
+    global.gotoXY(alignLeft + 5, alignTop + 1);
+    cout << customerDatabase[index].getCustomerID();
+    global.gotoXY(alignLeft + 6, alignTop + 2);
+    cout << customerDatabase[index].getCustomerName();
+    global.gotoXY(alignLeft + 14, alignTop + 3);
+    cout << customerDatabase[index].getCustomerPhone();
+
+    global.gotoXY(alignLeft, alignTop + 4);
     cout << "DATE: " << day << "/" << month << "/" << year;
     global.gotoXY(alignLeft, alignTop + 6);
     cout << "*************************************************";
@@ -364,10 +375,25 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory)
     cout << setw(21) << left << "Name Product";
     cout << setw(17) << left << "Quantity";
     cout <<"Total Price";
-    while (true) {
-
+    for (int j = 0; j < transactionHistory[index].size(); j++) {
+        global.gotoXY(leftBox, alignTop + 9 + j);
+        cout << setw(21) << left << transactionHistory[index][j].getProductName();
+        cout << setw(17) << left << transactionHistory[index][j].getSellQuantity();
+        cout << transactionHistory[index][j].getSellPrice() * transactionHistory[index][j].getSellQuantity();
+        totalCost = totalCost + transactionHistory[index][j].getSellPrice() * transactionHistory[index][j].getSellQuantity();
+        getj = j;
     }
-        
+
+    global.gotoXY(leftBox, alignTop + 11 + getj);
+    cout << setw(21) << left << " ";
+    cout << setw(17) << left  << "TOTAL BILL: ";
+    cout << totalCost;
+
+    key = _getch();
+    while (key != '\r') {
+        key = _getch();
+    }
+    system("cls");
 }
 
 
@@ -443,7 +469,7 @@ void Store::newCustomer(vector<Customer>& customerDatabase, vector<int>& idConta
     }
     global.loadingEffect("Order processing is underway...");
     global.notiBox("Succesfully Purchased - Thank you");
-    return global.generateMenu();
+    system("cls");
 }
 
 void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer)
@@ -868,6 +894,10 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     int sellQuantity;
                     global.gotoXY(89, top + 5 + i % 10 + 1);
                     cin >> sellQuantity;
+                    if (sellQuantity > productOnSell[index].getSellQuantity()) {
+                        sellQuantity = productOnSell[index].getSellQuantity();
+                    }
+
                     customerCart[i].setSellQuantity(sellQuantity);
                     //Fix bug these two lines of code
                     
@@ -904,8 +934,9 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     global.hideCursor(true);
                     if (confirm == "y") {
                         customerCart.clear();
-                        //return showBill(customerIndex, transactionHistory);
-                        return addCustomer(customerDatabase, idContainer);
+                        addCustomer(customerDatabase, idContainer);
+                        showBill(customerIndex, transactionHistory, customerDatabase);
+                        return option.storeMenu();
                     }
                     else {
                         system("cls");
