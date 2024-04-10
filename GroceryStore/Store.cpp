@@ -6,7 +6,11 @@
 
 using namespace std;
 int customerIndex = -1;
+int customerNewDisplay = -1;
+int prevcustomerNewDisplay = -1;
 int totalProductOnSell = 0;
+bool isAvailable = false;
+int customerOnTransaction = 0;
 vector<Product> virtualProductOnSell;
 vector<Product> prevProductOnSell;
 vector<Product> tempInventory;
@@ -323,7 +327,7 @@ void Store::removeZeroSellQuantity(vector<Product>& vector)
 }
 
 
-void Store::showBill(int index, vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase)
+void Store::showBill(int customerIndex, int index, vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase)
 {
     Global global;
     char key;
@@ -332,10 +336,11 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory, vec
     int top = 4;
     int lefts = global.leftCenter(width);
     int leftBox = global.leftCenterBox(width, 47);
+    int bonus = 0;
     string displayLabel = "MY GROCERY STORE";
     int center = global.leftCenter(displayLabel.length() - 1);
     global.drawRectangle(lefts, top, width, height);
-    int totalCost = 0;
+    float totalCost = 0;
     int getj = 0;
 
     int alignLeft = lefts + 2;
@@ -361,11 +366,11 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory, vec
     cout << "Phone number: ";
 
     global.gotoXY(alignLeft + 5, alignTop + 1);
-    cout << customerDatabase[index].getCustomerID();
+    cout << customerDatabase[customerIndex].getCustomerID();
     global.gotoXY(alignLeft + 6, alignTop + 2);
-    cout << customerDatabase[index].getCustomerName();
+    cout << customerDatabase[customerIndex].getCustomerName();
     global.gotoXY(alignLeft + 14, alignTop + 3);
-    cout << customerDatabase[index].getCustomerPhone();
+    cout << customerDatabase[customerIndex].getCustomerPhone();
 
     global.gotoXY(alignLeft, alignTop + 4);
     cout << "DATE: " << day << "/" << month << "/" << year;
@@ -380,14 +385,21 @@ void Store::showBill(int index, vector<vector<Product>>& transactionHistory, vec
         cout << setw(21) << left << transactionHistory[index][j].getProductName();
         cout << setw(17) << left << transactionHistory[index][j].getSellQuantity();
         cout << transactionHistory[index][j].getSellPrice() * transactionHistory[index][j].getSellQuantity();
-        totalCost = totalCost + transactionHistory[index][j].getSellPrice() * transactionHistory[index][j].getSellQuantity();
+        totalCost = totalCost + float(transactionHistory[index][j].getSellPrice() * transactionHistory[index][j].getSellQuantity());
         getj = j;
     }
 
+    bonus = customerDatabase[customerIndex].getBonusPoint() + int(totalCost / 50);
+    customerDatabase[customerIndex].setBonusPoint(bonus);
+
+    if (bonus >= 5) {
+        totalCost = totalCost * (80.0 / 100.0);
+        customerDatabase[customerIndex].setBonusPoint(bonus - 5);
+    }
     global.gotoXY(leftBox, alignTop + 11 + getj);
     cout << setw(21) << left << " ";
     cout << setw(17) << left  << "TOTAL BILL: ";
-    cout << totalCost;
+    cout << float(totalCost);
 
     key = _getch();
     while (key != '\r') {
@@ -424,6 +436,7 @@ void Store::newCustomer(vector<Customer>& customerDatabase, vector<int>& idConta
     string name;
     string gender;
     char key;
+    customerNewDisplay++;
     global.gotoXY(global.leftCenter(storeLabel.length()-1), 3);
     cout << storeLabel;
     global.gotoXY(global.leftCenter(Label.length()-1), 5);
@@ -472,9 +485,11 @@ void Store::newCustomer(vector<Customer>& customerDatabase, vector<int>& idConta
     system("cls");
 }
 
+
 void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer)
 {
     system("cls");
+    isAvailable = true;
     Global global;
     Option option;
     global.hideCursor(false);
@@ -490,7 +505,7 @@ void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& i
     cout << Label;  
     drawBox drawBox(width, heigth); 
     int index = getCustomerElement(id, customerDatabase);
-
+    customerOnTransaction = index;
 
     if (index == -1) {
         global.notiBox("No customer available");
@@ -528,10 +543,8 @@ void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& i
         }
         global.loadingEffect("Order processing is underway...");
         global.notiBox("Succesfully Purchased - Thank you");
-        return global.generateMenu();
+        system("cls");
     }
-    
-
 }
 
 int Store::generateCustomerID(set<int>& generateSet)
@@ -935,7 +948,11 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                     if (confirm == "y") {
                         customerCart.clear();
                         addCustomer(customerDatabase, idContainer);
-                        showBill(customerIndex, transactionHistory, customerDatabase);
+                        if (isAvailable) {
+                            showBill(customerOnTransaction, customerIndex, transactionHistory, customerDatabase);
+                        }
+                        else { showBill(customerNewDisplay, customerIndex, transactionHistory, customerDatabase); }
+                        isAvailable = false;
                         return option.storeMenu();
                     }
                     else {

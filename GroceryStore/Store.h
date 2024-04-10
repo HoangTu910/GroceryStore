@@ -26,7 +26,7 @@ public:
 	vector<Product> customerCart;
 	void removeZeroQuantity(vector<Product>& vector);
 	void removeZeroSellQuantity(vector<Product>& vector);
-	void showBill(int index, vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase);
+	void showBill(int customerIndex, int index, vector<vector<Product>>& transactionHistory, vector<Customer>& customerDatabase);
 	void addCustomer(vector<Customer> &customerDatabase, vector<int>& idContainer);
 	void newCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer);
 	void availableCustomer(vector<Customer>& customerDatabase, vector<int>& idContainer);

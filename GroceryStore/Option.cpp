@@ -147,14 +147,12 @@ void Option::CustomerOption::customerMenu()
 {
 	Global global;
 	Store store;
-	int option = global.drawMenu(10, 3, "Grocery Store Management", "Manage Customer", "1. Show Customers Infomation", "2. Config Customers Info", "3. Transaction History");
+	int option = global.drawMenu(10, 2, "Grocery Store Management", "Manage Customer", "1. Show Customers Infomation", "2. Transaction History");
 	switch (option) {
 	case 1: 
 		system("cls");
 		return customer.showCustomerList(customer.customerDatabase); break;
 	case 2:
-		cout << "Customer Option 2"; break;
-	case 3:
 		return customer.showTransactionHistory(customer.transactionHistory, customer.customerDatabase, customer.idContainer); break;
 	}
 }
