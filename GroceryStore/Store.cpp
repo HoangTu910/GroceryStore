@@ -495,56 +495,58 @@ void Store::availableCustomer(vector<Customer>& customerDatabase, vector<int>& i
     global.hideCursor(false);
     int width = 40;
     int heigth = 12;
-    int id = global.getIndexVector("Customer ID");
-    string storeLabel = "GROCERY STORE MANAGMENT";
-    string Label = "ADD NEW CUSTOMER";
     char key;
-    global.gotoXY(global.leftCenter(storeLabel.length() - 1), 3);  
-    cout << storeLabel; 
-    global.gotoXY(global.leftCenter(Label.length() - 1), 5); 
-    cout << Label;  
-    drawBox drawBox(width, heigth); 
+    int id = global.getIndexVector("Customer ID");
     int index = getCustomerElement(id, customerDatabase);
     customerOnTransaction = index;
 
-    if (index == -1) {
+    while (index == -1) {
         global.notiBox("No customer available");
-        return option.storeMenu();
+        id = global.getIndexVector("Customer ID");
+        index = getCustomerElement(id, customerDatabase);
+        customerOnTransaction = index;
     }
-    else {
-        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 2);
-        cout << "UID: ";
-        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 4);
-        cout << "Bonus Point: ";
-        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 6);
-        cout << "Name: ";
-        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 8);
-        cout << "Phone Number: ";
-        global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 10);
-        cout << "Gender: ";
+    
+    string storeLabel = "GROCERY STORE MANAGMENT";
+    string Label = "ADD NEW CUSTOMER";
+    global.gotoXY(global.leftCenter(storeLabel.length() - 1), 3);
+    cout << storeLabel;
+    global.gotoXY(global.leftCenter(Label.length() - 1), 5);
+    cout << Label;
+    drawBox drawBox(width, heigth);
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 2);
+    cout << "UID: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 4);
+    cout << "Bonus Point: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 6);
+    cout << "Name: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 8);
+    cout << "Phone Number: ";
+    global.gotoXY(drawBox.getLeft() + 5, drawBox.getTop() + 10);
+    cout << "Gender: ";
 
-        global.gotoXY(drawBox.getLeft() + 10, drawBox.getTop() + 2);
-        cout << customerDatabase[index].getCustomerID();
-        global.gotoXY(drawBox.getLeft() + 18, drawBox.getTop() + 4);
-        cout << customerDatabase[index].getBonusPoint();
-        global.gotoXY(drawBox.getLeft() + 11, drawBox.getTop() + 6);
-        cout << customerDatabase[index].getCustomerName();
-        global.gotoXY(drawBox.getLeft() + 19, drawBox.getTop() + 8);
-        cout << customerDatabase[index].getCustomerPhone();
-        global.gotoXY(drawBox.getLeft() + 14, drawBox.getTop() + 10);
-        cout << customerDatabase[index].getCustomerGender();
+    global.gotoXY(drawBox.getLeft() + 10, drawBox.getTop() + 2);
+    cout << customerDatabase[index].getCustomerID();
+    global.gotoXY(drawBox.getLeft() + 18, drawBox.getTop() + 4);
+    cout << customerDatabase[index].getBonusPoint();
+    global.gotoXY(drawBox.getLeft() + 11, drawBox.getTop() + 6);
+    cout << customerDatabase[index].getCustomerName();
+    global.gotoXY(drawBox.getLeft() + 19, drawBox.getTop() + 8);
+    cout << customerDatabase[index].getCustomerPhone();
+    global.gotoXY(drawBox.getLeft() + 14, drawBox.getTop() + 10);
+    cout << customerDatabase[index].getCustomerGender();
 
-        global.gotoXY(global.leftCenter(22), drawBox.getTop() + 12);
-        cout << "Press 'enter' to Confirm !";
-        idContainer.push_back(customerDatabase[index].getCustomerID());
+    global.gotoXY(global.leftCenter(22), drawBox.getTop() + 12);
+    cout << "Press 'enter' to Confirm !";
+    idContainer.push_back(customerDatabase[index].getCustomerID());
+    key = _getch();
+    while (key != '\r') {
         key = _getch();
-        while (key != '\r') {
-            key = _getch();
-        }
-        global.loadingEffect("Order processing is underway...");
-        global.notiBox("Succesfully Purchased - Thank you");
-        system("cls");
     }
+    global.loadingEffect("Order processing is underway...");
+    global.notiBox("Succesfully Purchased - Thank you");
+    system("cls");
+    
 }
 
 int Store::generateCustomerID(set<int>& generateSet)
