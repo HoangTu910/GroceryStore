@@ -765,12 +765,15 @@ void Store::editProductOnSell(vector<Product>& inv, vector<Product>& productOnSe
                     cin >> sellPrice;
                     global.gotoXY(89, top + 5 + (i+(10-totalProductOnSell)) % 10 + 1);
                     cin >> sellQuantity;
+                    if (sellQuantity > inv[index].getProductQuantity()) {
+                        sellQuantity = inv[index].getProductQuantity();
+                    }
                     productOnSell[i].setSellPrice(sellPrice);
                     productOnSell[i].setSellQuantity(productOnSell[i].getSellQuantity() + sellQuantity);
                     int productQuantity = inv[index].getProductQuantity();
                     int productLeft = productQuantity - sellQuantity;
                     if (productLeft < 0) {
-                        productLeft = productQuantity;
+                        productLeft = 0;
                     }
                     else {
                         productLeft = productLeft;
@@ -960,6 +963,7 @@ void Store::editCustomerCart(vector<Product>&productOnSell, vector<Product>&cust
                         productOnSell = tempProductOnSell;
                         transactionHistory = prevTransactionHistory; //bug dong nay
                         customerCart.clear();
+                        customerIndex--;
                         return option.storeMenu();
                     }
                     break;
