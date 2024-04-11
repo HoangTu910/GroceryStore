@@ -436,6 +436,22 @@ void Global::initBar(int offSet, int number, ...)
 }
 
 
+void toggleEcho(bool& echo) {
+	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD mode;
+	GetConsoleMode(hStdin, &mode);
+
+	if (echo) {
+		mode |= ENABLE_ECHO_INPUT;
+	}
+	else {
+		mode &= ~ENABLE_ECHO_INPUT;
+	}
+
+	SetConsoleMode(hStdin, mode);
+	std::cout << "Password visibility toggled " << (echo ? "ON" : "OFF") << std::endl;
+}
+
 void Global::generateLogin()
 {
 	setColor(7);

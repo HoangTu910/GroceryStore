@@ -222,9 +222,9 @@ void Customer::showTransactionHistory(vector<vector<Product>>& transactionHistor
 				}
 			}
 
-			global.gotoXY(global.leftCenter(8), 24);
+			global.gotoXY(global.leftCenter(6), 24);
 			global.setColor(initMenuColor[0]);
-			cout << ">> " << page + 1 << "/" << ceil(float(num_elements / 10.0)) << " <<";
+			cout << ">> " << page + 1 << " <<";
 			global.gotoXY(global.leftCenter(3), 26);
 			global.setColor(initMenuColor[1]);
 			cout << "Exit";
