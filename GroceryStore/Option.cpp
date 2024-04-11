@@ -154,6 +154,8 @@ void Option::CustomerOption::customerMenu()
 		return customer.showCustomerList(customer.customerDatabase); break;
 	case 2:
 		return customer.showTransactionHistory(customer.transactionHistory, customer.customerDatabase, customer.idContainer); break;
+	case 3:
+		return global.generateMenu(); break;
 	}
 }
 
@@ -167,6 +169,8 @@ void Option::ImportOption::importMenu()
 		return inve.importProductFile(inv); break;
 	case 2:
 		return inve.importProduct(inv); break;
+	case 3:
+		return global.generateMenu(); break;
 	}
 }
 

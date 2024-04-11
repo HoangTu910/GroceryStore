@@ -190,7 +190,7 @@ void Customer::showTransactionHistory(vector<vector<Product>>& transactionHistor
 	while (true) {
 		if (idContainer.empty()) {
 			global.notiBox("No Customer Data.");
-			return option.storeMenu();
+			return option.customerMenu();
 		}
 		else {
 			global.setColor(7);
@@ -312,7 +312,7 @@ void Customer::showCustomerList(vector<Customer>& customerDatabase)
 
 		if (customerDatabase.empty()) {
 			global.notiBox("No Customer Data.");
-			return option.storeMenu();
+			return option.customerMenu();
 		}
 		else {
 			global.setColor(7);
