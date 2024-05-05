@@ -4,8 +4,8 @@ Employee::Employee()
 {
 	this->userName = "user1";
 	this->userPassword = "123";
-	this->firstName = "Do";
-	this->lastName = "Phung Thanh";
+	this->firstName = "Hoang Huu";
+	this->lastName = "Tu";
 	this->gender = "Male";
 	this->staffID = "165";
 	this->dateOfBirth = "16/05/2003";

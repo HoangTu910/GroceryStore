@@ -400,7 +400,7 @@ void Store::showBill(int customerIndex, int index, vector<vector<Product>>& tran
     cout << setw(21) << left << " ";
     cout << setw(17) << left  << "TOTAL BILL: ";
     cout << float(totalCost);
-
+    global.hideCursor(true);
     key = _getch();
     while (key != '\r') {
         key = _getch();
